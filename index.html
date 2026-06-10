@@ -312,7 +312,7 @@
 <header class="masthead">
   <div class="cover">
     <div class="cover-top">
-      <h1>paste-up<span class="dot">.</span></h1>
+      <h1>zine machine<span class="dot">.</span></h1>
       <p class="cover-sub">Zine Machine<br>Field Observation Zine Template</p>
     </div>
     <div class="cover-blue">
@@ -1108,7 +1108,7 @@
       {heading:"3:12 AM", body:"The windows turn to mirrors and the whole bus rides through its own reflection.", bg:"ink", size:"m"},
       {heading:"Lost + Found", body:"one glove (left)\none umbrella (broken)\none phone number (unreadable)\none very good dog (claimed)", bg:"paper", size:"s"},
       {heading:"Transfer", body:"Every ride ends. Keep the ticket stub. It's proof you went somewhere.", bg:"pink", size:"m"},
-      {heading:"", body:"made on the Paste-Up press\nfold your own at home", bg:"paper", size:"s"}
+      {heading:"", body:"made with the Zine Machine\nfold your own at home", bg:"paper", size:"s"}
     ];
     ex.forEach((e, i) => {
       if(i >= pageCount) return;
@@ -1126,7 +1126,7 @@
   /* ------------------------ save / open project --------------------- */
   document.getElementById("saveBtn").addEventListener("click", () => {
     const data = {
-      app:"paste-up", version:1, format, pageCount,
+      app:"Zine Machine", version:1, format, pageCount,
       panels: master.map(p => ({
         heading:p.heading, body:p.body, bg:p.bg, size:p.size,
         ink:p.ink, ink2:p.ink2, ht:p.ht,
@@ -1153,8 +1153,8 @@
     reader.onload = () => {
       try{
         const data = JSON.parse(reader.result);
-        if(!data || data.app !== "paste-up" || !Array.isArray(data.panels)){
-          alert("That file doesn't look like a Paste-Up project.");
+        if(!data || data.app !== "Zine Machine" || !Array.isArray(data.panels)){
+          alert("That file doesn't look like a Zine Machine project.");
           return;
         }
         format = data.format === "booklet" ? "booklet" : "mini";
