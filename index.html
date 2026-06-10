@@ -5,145 +5,149 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PASTE-UP — one-sheet zine press</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
+    --bgdesk:#C5D0D5;
+    --card:#E2EAEC;
+    --card2:#F5F8F8;
+    --ink:#1C232B;
+    --line:#9DAFB7;
+    --muted:#5C6B74;
+    --accent:#1C5DB4;
+    --accent-d:#164A92;
+    --blue:#3D74CC;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono","Courier New",monospace;
+    /* output colors used by swatches */
     --paper:#FCFAF5;
-    --ink:#16140F;
     --pink:#FF48B0;
-    --pink-soft:rgba(255,72,176,.28);
-    --desk:#C9C6BF;
-    --desk-dark:#B7B4AC;
-    --rule:#8E8B84;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{
-    font-family:"Space Mono","Courier New",monospace;
+    font-family:var(--mono);
     color:var(--ink);
     background:
-      repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.012) 3px 4px),
-      linear-gradient(160deg, var(--desk) 0%, var(--desk-dark) 100%);
+      repeating-linear-gradient(0deg, transparent 0 4px, rgba(40,62,78,.03) 4px 5px),
+      var(--bgdesk);
     min-height:100vh;
     padding:0 0 80px;
+    font-size:14px;
   }
-  ::selection{background:var(--pink);color:var(--paper)}
+  ::selection{background:var(--blue);color:var(--card2)}
 
   /* ---------- header ---------- */
-  .masthead{max-width:1180px;margin:0 auto;padding:48px 24px 8px}
+  .masthead{max-width:1180px;margin:0 auto;padding:52px 24px 8px}
   .masthead .stamp{
     display:inline-block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-    border:1.5px solid var(--ink);padding:4px 10px;border-radius:2px;
-    transform:rotate(-2deg);background:var(--paper);box-shadow:2px 2px 0 rgba(0,0,0,.18);
+    border:1px solid var(--ink);padding:5px 12px;background:var(--card);
   }
   h1{
-    font-family:"Archivo Black","Arial Black",sans-serif;
-    font-size:clamp(44px,8vw,92px);line-height:.92;text-transform:uppercase;
-    letter-spacing:-.01em;margin:18px 0 10px;
+    font-family:var(--sans);font-weight:700;
+    font-size:clamp(46px,9vw,104px);line-height:.95;letter-spacing:-.035em;
+    margin:20px 0 12px;text-transform:lowercase;
   }
-  h1 .hl{background:linear-gradient(transparent 8%, var(--pink-soft) 8% 88%, transparent 88%);padding:0 .06em}
-  .lede{max-width:64ch;font-size:15px;line-height:1.65}
+  h1 .dot{color:var(--accent)}
+  .lede{max-width:64ch;font-size:14px;line-height:1.7}
   .lede b{font-weight:700}
 
   /* ---------- layout ---------- */
   .wrap{max-width:1180px;margin:0 auto;padding:24px}
   .section-label{
-    font-size:12px;letter-spacing:.24em;text-transform:uppercase;
-    display:flex;align-items:center;gap:14px;margin:34px 0 18px;
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    display:flex;align-items:center;gap:12px;margin:42px 0 18px;
   }
-  .section-label::after{content:"";flex:1;border-top:1.5px dashed var(--rule)}
+  .section-label .num{color:var(--accent);font-weight:600}
+  .section-label::after{content:"";flex:1;border-top:1px solid var(--line)}
 
   /* ---------- format picker ---------- */
   .formatbar{
-    background:var(--paper);padding:18px 20px;border-radius:1px;
-    box-shadow:0 2px 4px rgba(0,0,0,.12), 0 8px 18px rgba(0,0,0,.10);
+    background:var(--card);border:1px solid var(--line);padding:18px 20px;
+    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
     display:flex;flex-wrap:wrap;gap:14px;align-items:center;
   }
   .fmt{position:relative;cursor:pointer}
   .fmt input{position:absolute;opacity:0;inset:0;cursor:pointer}
   .fmt span{
-    display:block;border:1.5px solid var(--ink);border-radius:1px;background:#fff;
-    padding:10px 14px;font-size:12px;line-height:1.5;
+    display:block;border:1px solid var(--line);background:var(--card2);
+    padding:10px 14px;font-size:12px;line-height:1.55;
   }
-  .fmt b{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
-  .fmt input:checked + span{background:var(--ink);color:var(--paper)}
-  .fmt input:checked + span b{color:var(--pink)}
-  .fmt input:focus-visible + span{outline:2.5px solid var(--pink);outline-offset:1px}
+  .fmt b{display:block;font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:0;text-transform:lowercase}
+  .fmt input:checked + span{background:var(--ink);color:var(--card);border-color:var(--ink)}
+  .fmt input:checked + span b{color:#9FC0E8}
+  .fmt input:focus-visible + span{outline:2px solid var(--blue);outline-offset:2px}
   .countbox{display:flex;gap:8px;align-items:center;font-size:12px}
-  .countbox label{letter-spacing:.14em;text-transform:uppercase;font-size:10px;color:#5a574f}
+  .countbox label{letter-spacing:.16em;text-transform:uppercase;font-size:10px;color:var(--muted)}
   .countbox select{
-    font-family:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--ink);
-    border-radius:1px;background:#fff;padding:8px 10px;cursor:pointer;
+    font-family:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);
+    background:var(--card2);padding:8px 10px;cursor:pointer;color:var(--ink);
   }
-  .countbox select:focus-visible{outline:2.5px solid var(--pink);outline-offset:1px}
+  .countbox select:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
 
-  /* ---------- panel cards ---------- */
-  .panels{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:26px}
+  /* ---------- panel cards: manila file folders ---------- */
+  .panels{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:30px 26px}
   .card{
-    background:var(--paper);padding:14px 14px 16px;position:relative;border-radius:1px;
-    box-shadow:0 2px 4px rgba(0,0,0,.14), 0 10px 22px rgba(0,0,0,.12);
+    background:var(--card);border:1px solid var(--line);
+    padding:16px 14px;position:relative;border-radius:0 3px 3px 3px;
+    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
   }
-  .card:nth-child(odd){transform:rotate(-.5deg)}
-  .card:nth-child(even){transform:rotate(.45deg)}
-  .card:nth-child(3n){transform:rotate(-.2deg)}
   .card::before{
-    content:"";position:absolute;top:-9px;left:50%;
-    width:84px;height:20px;transform:translateX(-50%) rotate(-1.5deg);
-    background:var(--pink-soft);
-    border-left:1px dashed rgba(255,255,255,.7);
-    border-right:1px dashed rgba(255,255,255,.7);
+    content:"";position:absolute;top:-13px;left:-1px;width:104px;height:13px;
+    background:var(--card);border:1px solid var(--line);border-bottom:none;
+    border-radius:3px 3px 0 0;
   }
   .card h3{
-    font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;
-    display:flex;justify-content:space-between;align-items:baseline;margin:2px 2px 10px;
+    font-weight:600;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    display:flex;justify-content:space-between;align-items:baseline;margin:2px 2px 12px;
   }
-  .card h3 .no{color:var(--pink);font-size:11px}
+  .card h3 .no{color:var(--accent);font-size:10px}
   .thumb{
-    width:100%;aspect-ratio:330/510;display:block;background:#eee;
-    outline:1.5px solid var(--ink);margin-bottom:12px;cursor:pointer;
+    width:100%;aspect-ratio:330/510;display:block;background:#D5E0E4;
+    outline:1px solid var(--ink);margin-bottom:12px;cursor:pointer;
   }
-  .thumb.drag{outline:3px dashed var(--pink);outline-offset:-3px}
-  .field{margin-bottom:9px}
+  .thumb.drag{outline:2px dashed var(--blue);outline-offset:-2px}
+  .field{margin-bottom:10px}
   .field label{
     display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-    margin-bottom:3px;color:#5a574f;
+    margin-bottom:4px;color:var(--muted);
   }
   .field input[type=text], .field textarea{
-    width:100%;font-family:inherit;font-size:13px;line-height:1.45;
-    border:1.5px solid var(--ink);border-radius:1px;background:#fff;
+    width:100%;font-family:inherit;font-size:13px;line-height:1.5;
+    border:1px solid var(--line);background:var(--card2);
     padding:7px 8px;color:var(--ink);
   }
   .field textarea{resize:vertical;min-height:64px}
   .field input:focus, .field textarea:focus, button:focus-visible,
   .swatch input:focus-visible + span, .seg input:focus-visible + span{
-    outline:2.5px solid var(--pink);outline-offset:1px;
+    outline:2px solid var(--blue);outline-offset:1px;
   }
   .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
   .filebtn{
     display:inline-block;cursor:pointer;font-family:inherit;color:var(--ink);
-    font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
-    border:1.5px solid var(--ink);background:#fff;padding:7px 10px;border-radius:1px;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
+    border:1px solid var(--ink);background:var(--card2);padding:7px 10px;
   }
-  .filebtn:hover{background:var(--ink);color:var(--paper)}
+  .filebtn:hover{background:var(--ink);color:var(--card)}
   .clearimg{
     font-family:inherit;font-size:11px;letter-spacing:.08em;cursor:pointer;
-    background:none;border:none;text-decoration:underline;color:#5a574f;padding:6px 2px;
+    background:none;border:none;text-decoration:underline;color:var(--muted);padding:6px 2px;
   }
-  .clearimg:hover{color:var(--pink)}
+  .clearimg:hover{color:var(--accent)}
 
   .swatches{display:flex;gap:7px;flex-wrap:wrap}
   .swatch{position:relative;cursor:pointer}
   .swatch input{position:absolute;opacity:0;inset:0;cursor:pointer}
-  .swatch span{display:block;width:24px;height:24px;border:1.5px solid var(--ink);border-radius:1px}
-  .swatch input:checked + span{box-shadow:0 0 0 2.5px var(--pink)}
+  .swatch span{display:block;width:24px;height:24px;border:1px solid var(--ink)}
+  .swatch input:checked + span{box-shadow:0 0 0 2px var(--accent)}
   .sw-paper span{background:var(--paper)}
-  .sw-ink span{background:var(--ink)}
+  .sw-ink span{background:#16140F}
   .sw-pink span{background:var(--pink)}
   .inks .swatch span{width:22px;height:22px}
   .sw-none span{
-    background:linear-gradient(to top left, transparent 46%, var(--ink) 46% 54%, transparent 54%), #fff;
+    background:linear-gradient(to top left, transparent 46%, var(--ink) 46% 54%, transparent 54%), var(--card2);
   }
   .sw-ipink span{background:#FF48B0}
   .sw-iblue span{background:#0078BF}
@@ -151,64 +155,63 @@
   .sw-igreen span{background:#00A95C}
   .sw-iblack span{background:#16140F}
 
-  .seg{display:flex;border:1.5px solid var(--ink);border-radius:1px;overflow:hidden;width:max-content}
+  .seg{display:flex;border:1px solid var(--ink);overflow:hidden;width:max-content}
   .seg label{position:relative;cursor:pointer}
   .seg input{position:absolute;opacity:0;inset:0;cursor:pointer}
   .seg span{
-    display:block;padding:5px 9px;font-size:11px;font-weight:700;background:#fff;
-    border-right:1.5px solid var(--ink);
+    display:block;padding:5px 9px;font-size:11px;font-weight:600;background:var(--card2);
+    border-right:1px solid var(--ink);
   }
   .seg label:last-child span{border-right:none}
-  .seg input:checked + span{background:var(--ink);color:var(--paper)}
+  .seg input:checked + span{background:var(--ink);color:var(--card)}
 
   /* ---------- press sheets ---------- */
   .press{
-    background:var(--paper);padding:22px;border-radius:1px;
-    box-shadow:0 2px 4px rgba(0,0,0,.14), 0 12px 26px rgba(0,0,0,.14);
+    background:var(--card);border:1px solid var(--line);padding:22px;
+    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
   }
-  #sheets{display:grid;gap:22px}
+  #sheets{display:grid;gap:24px}
   #sheets figure{margin:0}
-  #sheets canvas{width:100%;height:auto;display:block;outline:1.5px solid var(--ink)}
+  #sheets canvas{width:100%;height:auto;display:block;outline:1px solid var(--ink)}
   #sheets figcaption{
     font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    margin-top:7px;color:#5a574f;
+    margin-top:8px;color:var(--muted);
   }
-  .press .controls{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:18px}
+  .press .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:20px}
   .bigbtn{
-    font-family:"Archivo Black","Arial Black",sans-serif;
-    font-size:16px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;
-    background:var(--pink);color:var(--ink);
-    border:2px solid var(--ink);border-radius:1px;padding:13px 22px;
-    box-shadow:3px 3px 0 var(--ink);
-    transition:transform .08s ease, box-shadow .08s ease;
+    font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:-.01em;
+    text-transform:lowercase;cursor:pointer;
+    background:var(--accent);color:#EAF1F6;
+    border:1px solid var(--ink);padding:13px 24px;border-radius:3px;
+    transition:background .12s ease;
   }
-  .bigbtn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .bigbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-  .bigbtn[disabled]{opacity:.55;cursor:wait;transform:none}
+  .bigbtn:hover{background:var(--accent-d)}
+  .bigbtn:active{background:#103A74}
+  .bigbtn[disabled]{opacity:.55;cursor:wait}
+  .bigbtn.alt{background:var(--card2);color:var(--ink)}
+  .bigbtn.alt:hover{background:var(--ink);color:var(--card)}
   .ghostbtn{
-    font-family:inherit;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-    background:#fff;border:1.5px solid var(--ink);border-radius:1px;padding:10px 14px;cursor:pointer;
+    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--card2);border:1px solid var(--ink);padding:11px 14px;cursor:pointer;color:var(--ink);
   }
-  .ghostbtn:hover{background:var(--ink);color:var(--paper)}
-  .check{display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer}
-  .check input{width:16px;height:16px;accent-color:var(--pink);cursor:pointer}
+  .ghostbtn:hover{background:var(--ink);color:var(--card)}
+  .check{display:flex;gap:8px;align-items:center;font-size:12px;cursor:pointer}
+  .check input{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
 
   /* ---------- folding guide ---------- */
   .fold-steps{
-    background:var(--paper);padding:22px 24px;border-radius:1px;
-    box-shadow:0 2px 4px rgba(0,0,0,.12), 0 8px 18px rgba(0,0,0,.10);
-    font-size:14px;line-height:1.7;
+    background:var(--card);border:1px solid var(--line);padding:22px 24px;
+    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
+    font-size:13px;line-height:1.75;
   }
   .fold-steps ol{padding-left:1.4em}
-  .fold-steps li{margin-bottom:6px}
-  .fold-steps em{font-style:normal;background:var(--pink-soft);padding:0 .2em}
-
-  .bigbtn.alt{background:#fff}
+  .fold-steps li{margin-bottom:7px}
+  .fold-steps em{font-style:normal;background:rgba(28,93,180,.14);padding:0 .2em}
 
   /* ---------- flip-through reader ---------- */
   .reader{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center}
   .reader[hidden]{display:none}
-  .reader-scrim{position:absolute;inset:0;background:rgba(22,20,15,.80)}
+  .reader-scrim{position:absolute;inset:0;background:rgba(15,21,27,.86)}
   .reader-ui{position:relative;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:96vw}
   .book{
     position:relative;display:flex;perspective:2200px;
@@ -235,21 +238,69 @@
   .face.back{transform:rotateY(180deg)}
   .face canvas{width:100%;height:100%;display:block}
   .reader-bar{
-    position:relative;display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center;
-    color:var(--paper);font-size:13px;
+    position:relative;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;
+    color:var(--card);font-size:13px;
   }
   .reader-bar .where{letter-spacing:.18em;text-transform:uppercase;font-size:11px;min-width:14ch;text-align:center}
   .rbtn{
-    font-family:inherit;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-    background:var(--paper);color:var(--ink);border:1.5px solid var(--ink);border-radius:1px;
+    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--card2);color:var(--ink);border:1px solid var(--ink);
     padding:9px 14px;cursor:pointer;
   }
-  .rbtn:hover{background:var(--pink)}
-  .rbtn:focus-visible{outline:2.5px solid var(--pink);outline-offset:2px}
+  .rbtn:hover{background:var(--accent);color:#EAF1F6}
+  .rbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .rbtn[disabled]{opacity:.4;cursor:default}
-  .rbtn[disabled]:hover{background:var(--paper)}
+  .rbtn[disabled]:hover{background:var(--card2);color:var(--ink)}
 
-  @media (prefers-reduced-motion: reduce){ .bigbtn{transition:none} }
+
+  /* ---------- IBM-manual cover ---------- */
+  .cover{
+    border:1px solid var(--ink);background:#F5F3EC;
+    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 10px 24px rgba(28,46,58,.12);
+  }
+  .cover-top{padding:26px 30px 22px}
+  .cover-top h1{font-size:clamp(30px,4.5vw,46px);margin:0 0 14px;color:var(--accent)}
+  .cover-top h1 .dot{color:var(--ink)}
+  .cover-sub{
+    font-family:var(--sans);font-weight:700;color:var(--accent);
+    font-size:16px;line-height:1.4;margin:0;
+  }
+  .cover-blue{
+    position:relative;background:var(--accent);color:#EAF2FB;
+    padding:36px 130px 58px 64px;
+  }
+  .cover-blue .lede{color:#EAF2FB;flex:1 1 36ch;min-width:30ch}
+  .cover-body{display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap}
+  .schematic{width:230px;max-width:100%;flex:0 0 auto;stroke:#EAF2FB;fill:none;stroke-width:2;margin-top:4px}
+  .holes{
+    position:absolute;left:16px;top:28px;bottom:28px;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .holes i{
+    width:14px;height:14px;border-radius:50%;background:var(--bgdesk);
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.35);
+  }
+  .vert{
+    position:absolute;right:20px;top:28px;bottom:28px;
+    display:flex;gap:12px;align-items:flex-start;justify-content:flex-end;
+  }
+  .vert .vbig, .vert .vsmall{
+    font-family:var(--sans);font-weight:700;color:#EAF2FB;
+    writing-mode:vertical-rl;transform:rotate(180deg);
+  }
+  .vert .vbig{font-size:clamp(52px,8vw,104px);letter-spacing:-.03em;line-height:.85;text-transform:lowercase}
+  .vert .vsmall{font-size:12px;letter-spacing:.04em;padding-top:4px}
+  .docno{position:absolute;left:64px;bottom:18px;font-size:10px;letter-spacing:.14em;color:#BCD4EF}
+  @media (max-width:760px){
+    .vert{display:none}
+    .cover-blue{padding:28px 28px 50px 56px}
+    .docno{left:56px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bigbtn{transition:none}
+    .flipper{transition:none}
+  }
   @media (max-width:560px){
     .masthead{padding-top:32px}
     .press{padding:14px}
@@ -259,13 +310,37 @@
 <body>
 
 <header class="masthead">
-  <span class="stamp">Single sheet or stapled · your call</span>
-  <h1>Paste-<span class="hl">Up</span></h1>
-  <p class="lede">The home zine press. Fill your panels with pictures and words — riso inks, halftones, the works — then print on letter paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p>
+  <div class="cover">
+    <div class="cover-top">
+      <h1>paste-up<span class="dot">.</span></h1>
+      <p class="cover-sub">Paste-Up Press<br>Zine Maintenance Information Manual</p>
+    </div>
+    <div class="cover-blue">
+      <span class="holes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <div class="cover-body">
+        <p class="lede">The home zine press. Fill your panels with pictures and words — riso inks, halftones, the works — then print on letter paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p>
+        <svg class="schematic" viewBox="0 0 240 180" role="img" aria-label="Press sheet imposition diagram">
+          <rect x="8" y="30" width="224" height="120"/>
+          <line x1="64" y1="30" x2="64" y2="150" stroke-dasharray="5 6"/>
+          <line x1="120" y1="30" x2="120" y2="150" stroke-dasharray="5 6"/>
+          <line x1="176" y1="30" x2="176" y2="150" stroke-dasharray="5 6"/>
+          <line x1="8" y1="90" x2="232" y2="90" stroke-dasharray="5 6"/>
+          <line x1="64" y1="90" x2="176" y2="90" stroke-width="3.5"/>
+          <line x1="8" y1="166" x2="100" y2="166" stroke-width="1.5"/>
+          <line x1="140" y1="166" x2="232" y2="166" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="vert" aria-hidden="true">
+        <span class="vsmall">one-sheet minis · stapled booklets</span>
+        <span class="vbig">press</span>
+      </span>
+      <span class="docno">PU31-0610-1</span>
+    </div>
+  </div>
 </header>
 
 <main class="wrap">
-  <div class="section-label">Step 1 — Pick a format</div>
+  <div class="section-label"><span class="num">1.0</span> Pick a format</div>
   <div class="formatbar">
     <label class="fmt">
       <input type="radio" name="format" value="mini" checked>
@@ -287,10 +362,10 @@
     </span>
   </div>
 
-  <div class="section-label">Step 2 — Fill your panels</div>
+  <div class="section-label"><span class="num">2.0</span> Fill your panels</div>
   <div class="panels" id="panels"></div>
 
-  <div class="section-label">Step 3 — Check the press sheets</div>
+  <div class="section-label"><span class="num">3.0</span> Check the press sheets</div>
   <div class="press">
     <div id="sheets"></div>
     <div class="controls">
@@ -305,7 +380,7 @@
     </div>
   </div>
 
-  <div class="section-label" id="bindLabel">Step 4 — Fold &amp; cut</div>
+  <div class="section-label"><span class="num">4.0</span> <span id="bindText">Fold &amp; cut</span></div>
   <div class="fold-steps" id="steps-mini">
     <ol>
       <li><b>Print</b> the PDF single-sided on letter paper, landscape, at 100% scale (no &ldquo;fit to page&rdquo; shrinking).</li>
@@ -1000,7 +1075,7 @@
   const pcount = document.getElementById("pcount");
   const stepsMini = document.getElementById("steps-mini");
   const stepsBooklet = document.getElementById("steps-booklet");
-  const bindLabel = document.getElementById("bindLabel");
+  const bindLabel = document.getElementById("bindText");
 
   function applyFormatUI(){
     document.querySelector('input[name="format"][value="' + format + '"]').checked = true;
@@ -1008,7 +1083,7 @@
     countbox.hidden = format !== "booklet";
     stepsMini.hidden = format !== "mini";
     stepsBooklet.hidden = format !== "booklet";
-    bindLabel.textContent = format === "mini" ? "Step 4 — Fold & cut" : "Step 4 — Fold & staple";
+    bindLabel.textContent = format === "mini" ? "Fold & cut" : "Fold & staple";
   }
 
   document.querySelectorAll('input[name="format"]').forEach(r =>
