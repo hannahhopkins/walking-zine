@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>zine_machine — zines in the field</title>
+<title>ZINE MACHINE — the home zine press</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&family=Playfair+Display:wght@700&family=Lora&family=Oswald:wght@600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -53,11 +53,8 @@
     box-shadow:0 2px 8px rgba(30,45,60,.14);
   }
   .lede{font-size:13.5px;line-height:1.8}
+  .bluescrap p + p{margin-top:14px}
   .lede b{font-weight:700}
-  .schemwrap{flex:0 0 auto;display:flex;flex-direction:column;gap:10px;max-width:240px}
-  .schematic{width:210px;max-width:100%;stroke:var(--ink);fill:none;stroke-width:1.5;opacity:.8}
-  .annot{font-style:italic;font-size:11px;line-height:1.55;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
-  .annot .arr{flex:0 0 auto;width:44px;stroke:var(--muted);fill:none;stroke-width:1.3;margin-top:2px}
 
   /* ---------- layout ---------- */
   .wrap{max-width:1180px;margin:0 auto;padding:24px}
@@ -103,7 +100,7 @@
   }
   .card h3 .no{color:var(--focus);font-size:10px}
   .thumb{
-    width:100%;aspect-ratio:330/510;display:block;background:#D9E3EA;
+    width:100%;height:auto;display:block;background:#D9E3EA;
     outline:1px solid var(--ink);margin-bottom:12px;cursor:pointer;
   }
   .thumb.drag{outline:2px dashed var(--focus);outline-offset:-2px}
@@ -169,6 +166,18 @@
     background:var(--paper2);padding:7px 8px;color:var(--ink);cursor:pointer;
   }
   .fontsel:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+  .grp{border-top:1px dashed var(--line);margin-top:8px}
+  .grp summary{
+    cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;
+    padding:9px 0;font-size:10px;letter-spacing:.14em;text-transform:lowercase;
+    color:var(--muted);font-weight:600;
+  }
+  .grp summary::-webkit-details-marker{display:none}
+  .grp summary::after{content:"+";font-size:13px;line-height:1}
+  .grp[open] summary::after{content:"\2212"}
+  .grp summary:hover{color:var(--ink)}
+  .grp summary:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+  .grp .field:last-child{margin-bottom:14px}
   .inks .swatch span{width:22px;height:22px}
   .sw-none span{
     background:linear-gradient(to top left, transparent 46%, var(--ink) 46% 54%, transparent 54%), var(--paper2);
@@ -293,16 +302,16 @@
 <body>
 
 <header class="masthead">
-  <p class="spec-meta"><span>zine_machine press</span><span>environmental media studio @ georgia state university</span></p>
-  <h1 class="wordmark">zine_machine</h1>
+  <p class="spec-meta"><span>zine machine — press &amp; specimen book</span><span>ZM31-0610-1</span></p>
+  <h1 class="wordmark">zine machine</h1>
   <div class="intro">
-    <div class="bluescrap"><p class="lede">A zine press made for creative in-the-field storytelling. Fill your panels with images and words — with optional riso inks, halftones, the works — then print on letter-sized paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p></div>
+    <div class="bluescrap"><p class="lede">A zine press made for creative in-the-field storytelling. Fill your panels with images and words — with optional riso inks, halftones, the works — then print on letter-sized paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p><p class="lede">When you&rsquo;re ready to print: <b>print the pdf</b> makes a ready-to-fold file for any home printer — single-sided for the mini, double-sided (flip on the short edge) for booklets. Taking it to a risograph shop instead? <b>print with riso</b> exports true color separations — one grayscale master per ink, plus a key page that tells the shop which layer is which.</p></div>
   </div>
-  <p class="apps">practical zine_machine applications: field notes &middot; infrastructure walks &middot; protest flyers &middot; love notes &middot; treasure maps</p>
+  <p class="apps">practical applications: trip logs &middot; recipe minis &middot; protest flyers &middot; love notes &middot; field reports</p>
 </header>
 
 <main class="wrap">
-  <div class="section-label"><span class="meta num">1.0</span><span class="title">Choose a format</span><span class="meta r">two ways to bind</span></div>
+  <div class="section-label"><span class="meta num">1.0</span><span class="title">Pick a format</span><span class="meta r">two ways to bind</span></div>
   <div class="formatbar">
     <label class="fmt">
       <input type="radio" name="format" value="mini" checked>
@@ -322,17 +331,27 @@
         <option value="24">24</option>
       </select>
     </span>
+    <span class="countbox">
+      <label for="psize">paper</label>
+      <select id="psize">
+        <option value="letter">letter 8.5×11</option>
+        <option value="legal">legal 8.5×14</option>
+        <option value="tabloid">tabloid 11×17</option>
+        <option value="big">14×19</option>
+      </select>
+    </span>
   </div>
 
-  <div class="section-label"><span class="meta num">2.0</span><span class="title">design your panels</span><span class="meta r">text · image · ink</span></div>
+  <div class="section-label"><span class="meta num">2.0</span><span class="title">Fill your panels</span><span class="meta r">text · image · ink</span></div>
   <div class="panels" id="panels"></div>
 
-  <div class="section-label"><span class="meta num">3.0</span><span class="title">Check the press sheets</span><span class="meta r">300 dpi · letter</span></div>
+  <div class="section-label"><span class="meta num">3.0</span><span class="title">Check the press sheets</span><span class="meta r">300 dpi</span></div>
   <div class="press">
     <div id="sheets"></div>
     <div class="controls">
       <button class="bigbtn" id="exportBtn">Print the PDF ↓</button>
       <button class="bigbtn alt" id="previewBtn">Preview the zine ⟶</button>
+      <button class="ghostbtn" id="risoBtn">Print with riso ↓</button>
       <button class="ghostbtn" id="exampleBtn">Load an example</button>
       <button class="ghostbtn" id="saveBtn">Save project</button>
       <button class="ghostbtn" id="openBtn">Open project</button>
@@ -345,7 +364,7 @@
   <div class="section-label"><span class="meta num">4.0</span><span class="title" id="bindText">Fold &amp; cut</span><span class="meta r">no glue required</span></div>
   <div class="fold-steps" id="steps-mini">
     <ol>
-      <li><b>Print</b> the PDF single-sided on letter paper, landscape, at 100% scale (no &ldquo;fit to page&rdquo; shrinking).</li>
+      <li><b>Print</b> the PDF single-sided, landscape, at 100% scale (no &ldquo;fit to page&rdquo; shrinking).</li>
       <li><b>Fold in half the long way</b> (top edge to bottom edge). Crease hard, then unfold.</li>
       <li><b>Fold in half the short way</b> (left edge to right edge) and keep it folded.</li>
       <li><b>Cut along the pink ✂ line</b> — from the folded edge to the crease, through the middle of the sheet. Unfold.</li>
@@ -355,7 +374,7 @@
   </div>
   <div class="fold-steps" id="steps-booklet" hidden>
     <ol>
-      <li><b>Print double-sided</b> on letter paper, landscape, at 100% scale. Set duplex to <em>flip on short edge</em> — this is the step everyone gets wrong, and it&rsquo;s the difference between a zine and a puzzle.</li>
+      <li><b>Print double-sided</b>, landscape, at 100% scale. Set duplex to <em>flip on short edge</em> — this is the step everyone gets wrong, and it&rsquo;s the difference between a zine and a puzzle.</li>
       <li><b>Keep the sheets in printed order.</b> Sheet 1 holds your covers and goes on the outside; the last sheet nests innermost.</li>
       <li><b>Stack the sheets</b> with every front side facing the same way, then fold the whole stack in half along the dashed center line.</li>
       <li><b>Staple twice along the fold</b> — a long-arm stapler is ideal. No long-arm? Open the stack flat, put a folded towel underneath, and press a regular stapler down through the crease.</li>
@@ -366,7 +385,7 @@
 </main>
 
 <footer class="colophon">
-  <span>01 paper — us letter, 300 dpi</span>
+  <span>01 paper — letter · legal · tabloid · 14×19 — 300 dpi</span>
   <span>02 formats — mini 8pp &middot; booklet 8–24pp</span>
   <span>03 inks — nine riso colors</span>
   <span>04 binding — one cut or two staples</span>
@@ -402,6 +421,21 @@
   const SHEET_W = 3300, SHEET_H = 2550;             // letter landscape @300dpi
   const MINI_PW = 825, MINI_PH = 1275;              // quarter panel @300dpi
   const BOOK_PW = 1650, BOOK_PH = 2550;             // half-letter page @300dpi
+  const PAPERS = {
+    letter: {w:11, h:8.5},
+    legal:  {w:14, h:8.5},
+    tabloid:{w:17, h:11},
+    big:    {w:19, h:14}
+  };
+  let paperKey = "letter";
+  function paperPx(){
+    const P = PAPERS[paperKey];
+    return {W: Math.round(P.w*300), H: Math.round(P.h*300)};
+  }
+  function panelPx(){
+    const pp = paperPx();
+    return format === "booklet" ? {pw:pp.W/2, ph:pp.H} : {pw:pp.W/4, ph:pp.H/2};
+  }
   const TOP_ROW    = [4,3,2,1];                     // mini imposition (0-based page idx)
   const BOTTOM_ROW = [5,6,7,0];
 
@@ -475,7 +509,7 @@
 
   /* ----------------------------- state ----------------------------- */
   const master = Array.from({length:MAXP}, () => ({
-    heading:"", body:"", imgs:[], grid:"auto", bg:"paper", size:"m",
+    heading:"", body:"", imgs:[], grid:"auto", imgpos:"top", bg:"paper", tex:"off", size:"m",
     font:"press", fg:"auto", ink:"none", ink2:"none", ht:"off"
   }));
   let format = "mini";
@@ -641,6 +675,41 @@
     });
   }
 
+  // riso flood texture: roller streaks + paper pinholes + sparse ink specks.
+  // Seeded per page so the grain doesn't shimmer between re-renders, and
+  // positions are normalized so preview and PDF show the same texture.
+  function drawFloodTexture(ctx, w, h, seed, dpi){
+    let s = (seed*2654435761) >>> 0 || 1;
+    const rnd = () => { s = (s*1664525 + 1013904223) >>> 0; return s/4294967296; };
+    ctx.save();
+    const bands = 6 + Math.floor(rnd()*3);
+    for(let k=0; k<bands; k++){
+      ctx.fillStyle = k % 3 === 2 ? "rgba(0,0,0,.022)" : "rgba(252,250,245,.04)";
+      const bh = (0.02 + rnd()*0.06)*h;
+      ctx.fillRect(0, rnd()*(h-bh), w, bh);
+    }
+    const dots = Math.round((w*h)/900);
+    ctx.fillStyle = "rgba(252,250,245,.16)";
+    ctx.beginPath();
+    for(let k=0; k<dots; k++){
+      const x = rnd()*w, y = rnd()*h;
+      const r = Math.max(.5, (0.7 + rnd()*1.8)*dpi);
+      ctx.moveTo(x+r, y);
+      ctx.arc(x, y, r, 0, Math.PI*2);
+    }
+    ctx.fill();
+    ctx.fillStyle = "rgba(0,0,0,.05)";
+    ctx.beginPath();
+    for(let k=0; k<Math.round(dots/8); k++){
+      const x = rnd()*w, y = rnd()*h;
+      const r = Math.max(.5, (0.9 + rnd()*2)*dpi);
+      ctx.moveTo(x+r, y);
+      ctx.arc(x, y, r, 0, Math.PI*2);
+    }
+    ctx.fill();
+    ctx.restore();
+  }
+
   /* ------------------------- panel rendering ------------------------ */
   // pw/ph: output px. Layout scales from the 825-wide reference panel.
   function renderPanel(p, pageNum, totalPages, pw, ph, dpiScale){
@@ -655,21 +724,35 @@
       : col.fg;
     ctx.fillStyle = col.bg;
     ctx.fillRect(0,0,c.width,c.height);
+    if(p.tex === "on" && p.bg !== "paper"){
+      drawFloodTexture(ctx, c.width, c.height, pageNum, dpiScale);
+    }
 
     const pad = 72*f;
     const hasText = (p.heading.trim() || p.body.trim());
     let textTop = pad;
 
     const imgs = (p.imgs || []).filter(im => im.naturalWidth);
+    const pos = p.imgpos || "top";
+    let textMaxY = c.height - pad;
     if(imgs.length){
-      if(hasText){
-        const ih = Math.round(ph*0.52);
-        drawImageGrid(ctx, imgs, 0, 0, c.width, ih, p, dpiScale, f);
-        ctx.fillStyle = (p.ink !== "none" && INKS[p.ink]) ? INKS[p.ink] : col.accent;
-        ctx.fillRect(0, ih, c.width, Math.max(2, 10*f));
-        textTop = ih + 10*f + 48*f;
-      } else {
+      const barH = Math.max(2, 10*f);
+      const barColor = (p.ink !== "none" && INKS[p.ink]) ? INKS[p.ink] : col.accent;
+      if(!hasText || pos === "behind"){
         drawImageGrid(ctx, imgs, 0, 0, c.width, c.height, p, dpiScale, f);
+      } else if(pos === "bottom"){
+        const ih = Math.round(c.height*0.52);
+        const by = c.height - ih;
+        drawImageGrid(ctx, imgs, 0, by, c.width, ih, p, dpiScale, f);
+        ctx.fillStyle = barColor;
+        ctx.fillRect(0, by - barH, c.width, barH);
+        textMaxY = by - barH - 24*f;
+      } else {
+        const ih = Math.round(c.height*0.52);
+        drawImageGrid(ctx, imgs, 0, 0, c.width, ih, p, dpiScale, f);
+        ctx.fillStyle = barColor;
+        ctx.fillRect(0, ih, c.width, barH);
+        textTop = ih + barH + 48*f;
       }
     }
 
@@ -682,7 +765,7 @@
         ctx.fillStyle = fg;
         ctx.textBaseline = "top";
         for(const line of wrapText(ctx, p.heading.toUpperCase(), maxW)){
-          if(y > c.height - pad) break;
+          if(y > textMaxY) break;
           ctx.fillText(line, pad, y);
           y += hs*1.04;
         }
@@ -694,7 +777,7 @@
         ctx.fillStyle = fg;
         ctx.textBaseline = "top";
         for(const line of wrapText(ctx, p.body, maxW)){
-          if(y > c.height - pad) break;
+          if(y > textMaxY) break;
           ctx.fillText(line, pad, y);
           y += bs*1.5;
         }
@@ -713,12 +796,192 @@
     return c;
   }
 
+  /* --------------------- riso separation rendering ------------------ */
+  // Which physical ink each part of a panel prints with (null = bare paper).
+  function resolveInkPlan(p, pageNum, totalPages){
+    const hasTxt = !!(p.heading.trim() || p.body.trim());
+    const hasNum = pageNum >= 2 && pageNum <= totalPages - 1;
+    const imgsOn = (p.imgs || []).some(im => im.naturalWidth);
+    const bgInk = p.bg === "paper" ? null : (p.bg === "ink" ? "black" : p.bg);
+    const col = bgPalette(p.bg);
+    let fgInk = p.fg === "auto" ? (col.fg === "#FCFAF5" ? null : "black")
+              : (p.fg === "paper" ? null : (INKS[p.fg] ? p.fg : "black"));
+    if(!hasTxt && !hasNum) fgInk = undefined;   // nothing to print, nothing to knock out
+    const twoColor = imgsOn && p.ink !== "none" && p.ink2 !== "none" && !!INKS[p.ink2];
+    const ink1 = imgsOn ? (p.ink === "none" ? "black" : p.ink) : null;
+    const ink2 = twoColor ? p.ink2 : null;
+    let barInk = null;
+    if(imgsOn && hasTxt && (p.imgpos || "top") !== "behind"){
+      barInk = p.ink !== "none" ? p.ink : (col.accent === "#FCFAF5" ? null : "pink");
+    }
+    return {bgInk, fgInk, ink1, ink2, barInk, twoColor};
+  }
+
+  // One grayscale master for ink layer K: black = full coverage of that ink.
+  function renderPanelLayer(p, pageNum, totalPages, pw, ph, dpiScale, K){
+    const c = document.createElement("canvas");
+    c.width = Math.round(pw); c.height = Math.round(ph);
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, c.width, c.height);
+    const f = pw/825;
+    const plan = resolveInkPlan(p, pageNum, totalPages);
+    const tf = TYPEFACES[p.font] || TYPEFACES.press;
+    const pad = 72*f;
+    const hasText = !!(p.heading.trim() || p.body.trim());
+    const imgs = (p.imgs || []).filter(im => im.naturalWidth);
+    const pos = p.imgpos || "top";
+    const barH = Math.max(2, 10*f);
+
+    // geometry mirrors renderPanel exactly
+    let textTop = pad, textMaxY = c.height - pad;
+    let imgRect = null, barY = null;
+    if(imgs.length){
+      if(!hasText || pos === "behind"){
+        imgRect = {x:0, y:0, w:c.width, h:c.height};
+      } else if(pos === "bottom"){
+        const ih = Math.round(c.height*0.52);
+        imgRect = {x:0, y:c.height - ih, w:c.width, h:ih};
+        barY = c.height - ih - barH;
+        textMaxY = barY - 24*f;
+      } else {
+        const ih = Math.round(c.height*0.52);
+        imgRect = {x:0, y:0, w:c.width, h:ih};
+        barY = ih;
+        textTop = ih + barH + 48*f;
+      }
+    }
+    const layout = imgRect ? (p.grid === "auto" ? Math.min(imgs.length, 4) : parseInt(p.grid, 10)) : 0;
+    const g = layout > 1 ? Math.max(2, Math.round(8*f)) : 0;
+    const cells = imgRect ? gridCells(layout, imgRect.w, imgRect.h, g) : [];
+
+    const drawText = (style) => {
+      ctx.fillStyle = style;
+      let y = textTop;
+      if(p.heading.trim()){
+        const hs = (p.size==="l" ? 86 : p.size==="s" ? 58 : 72)*f;
+        ctx.font = tf.headWeight + hs + "px " + tf.head;
+        ctx.textBaseline = "top";
+        for(const line of wrapText(ctx, p.heading.toUpperCase(), c.width - pad*2)){
+          if(y > textMaxY) break;
+          ctx.fillText(line, pad, y);
+          y += hs*1.04;
+        }
+        y += 26*f;
+      }
+      if(p.body.trim()){
+        const bs = BODY_SIZES[p.size]*f;
+        ctx.font = bs + "px " + tf.body;
+        ctx.textBaseline = "top";
+        for(const line of wrapText(ctx, p.body, c.width - pad*2)){
+          if(y > textMaxY) break;
+          ctx.fillText(line, pad, y);
+          y += bs*1.5;
+        }
+      }
+      if(pageNum >= 2 && pageNum <= totalPages - 1){
+        ctx.font = (26*f) + "px " + tf.body;
+        ctx.textBaseline = "alphabetic";
+        const n = String(pageNum);
+        ctx.fillText(n, (c.width - ctx.measureText(n).width)/2, c.height - 34*f);
+      }
+    };
+
+    // flood layer, with knockouts where the preview shows paper
+    if(plan.bgInk === K){
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = "#FFFFFF";
+      cells.forEach((r, i) => {
+        if(imgs[i]) ctx.fillRect(imgRect.x + r.x, imgRect.y + r.y, r.w, r.h);
+      });
+      if(barY !== null && plan.barInk === null) ctx.fillRect(0, barY, c.width, barH);
+      if(plan.fgInk === null) drawText("#FFFFFF");   // paper text knocks out of the flood
+    }
+    if(plan.fgInk === K) drawText("#000000");
+    if(barY !== null && plan.barInk === K){
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, barY, c.width, barH);
+    }
+    // image passes — no baked misregistration; the press supplies its own
+    const drawPass = (tone, angle) => {
+      const htCell = p.ht !== "off" ? Math.max(2.5, HT_CELLS[p.ht]*dpiScale) : 0;
+      cells.forEach((r, i) => {
+        if(!imgs[i]) return;
+        const w = Math.max(1, Math.round(r.w)), h = Math.max(1, Math.round(r.h));
+        const gray = makeGray(imgs[i], w, h, tone);
+        const layer = htCell ? halftoneFromGray(gray, "#000000", angle, htCell) : gray;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(imgRect.x + r.x, imgRect.y + r.y, r.w, r.h);
+        ctx.clip();
+        ctx.globalCompositeOperation = "multiply";
+        ctx.drawImage(layer, imgRect.x + r.x, imgRect.y + r.y, r.w, r.h);
+        ctx.restore();
+      });
+    };
+    if(plan.ink1 === K) drawPass(plan.twoColor ? "dark" : "full", plan.twoColor ? 15 : 45);
+    if(plan.ink2 === K) drawPass("light", 75);
+    return c;
+  }
+
+  function collectInkLayers(){
+    const used = {};
+    for(let i = 0; i < pageCount; i++){
+      const plan = resolveInkPlan(master[i], i+1, pageCount);
+      [plan.bgInk, plan.fgInk, plan.ink1, plan.ink2, plan.barInk].forEach(k => {
+        if(k && INKS[k]) used[k] = true;
+      });
+    }
+    return Object.keys(INKS).filter(k => used[k]);
+  }
+
+  function risoKeyPage(layers, sheetsPerLayer){
+    const pp = paperPx();
+    const c = document.createElement("canvas");
+    c.width = pp.W; c.height = pp.H;
+    const ctx = c.getContext("2d");
+    const u = pp.W/3300;
+    ctx.fillStyle = "#FCFAF5"; ctx.fillRect(0, 0, pp.W, pp.H);
+    ctx.fillStyle = "#16140F";
+    ctx.textBaseline = "top";
+    ctx.font = "700 " + Math.round(130*u) + 'px "Helvetica Neue",Helvetica,Arial,sans-serif';
+    ctx.fillText("riso separations", 180*u, 140*u);
+    ctx.font = Math.round(46*u) + 'px "IBM Plex Mono","Courier New",monospace';
+    let y = 330*u, page = 2;
+    layers.forEach((k, idx) => {
+      ctx.fillStyle = INKS[k];
+      ctx.fillRect(180*u, y, 70*u, 70*u);
+      ctx.strokeStyle = "#16140F";
+      ctx.lineWidth = Math.max(1, 2*u);
+      ctx.strokeRect(180*u, y, 70*u, 70*u);
+      ctx.fillStyle = "#16140F";
+      const range = sheetsPerLayer === 1 ? "page " + page : "pages " + page + "\u2013" + (page + sheetsPerLayer - 1);
+      ctx.fillText("layer " + (idx+1) + " \u2014 " + INK_LABELS[k].toLowerCase() + " \u2014 " + range, 290*u, y + 12*u);
+      page += sheetsPerLayer;
+      y += 108*u;
+    });
+    y += 50*u;
+    ctx.font = Math.round(40*u) + 'px "IBM Plex Mono","Courier New",monospace';
+    [
+      "each layer page is grayscale \u2014 black means full ink coverage",
+      "untreated full-color images separate to the black layer as grayscale",
+      "no misregistration is baked in; the press supplies its own",
+      "fold and cut guides are left off the masters"
+    ].forEach(nt => { ctx.fillText("\u00b7 " + nt, 180*u, y); y += 62*u; });
+    return c;
+  }
+
   /* ------------------------- sheet composition ---------------------- */
   const guidesChk = document.getElementById("guidesChk");
 
   // scale: px per 300dpi px (1 = full print res)
-  function composeMiniSheet(scale){
-    const W = Math.round(SHEET_W*scale), H = Math.round(SHEET_H*scale);
+  function composeMiniSheet(scale, layerKey){
+    const rp = layerKey
+      ? (panel, n, t, w2, h2, d) => renderPanelLayer(panel, n, t, w2, h2, d, layerKey)
+      : renderPanel;
+    const pp = paperPx();
+    const W = Math.round(pp.W*scale), H = Math.round(pp.H*scale);
     const pw = W/4, ph = H/2;
     const c = document.createElement("canvas");
     c.width = W; c.height = H;
@@ -727,7 +990,7 @@
     ctx.fillRect(0,0,W,H);
 
     TOP_ROW.forEach((pi, col) => {
-      const pc = renderPanel(master[pi], pi+1, 8, pw, ph, scale);
+      const pc = rp(master[pi], pi+1, 8, pw, ph, scale);
       ctx.save();
       ctx.translate(col*pw + pw/2, ph/2);
       ctx.rotate(Math.PI);
@@ -735,11 +998,11 @@
       ctx.restore();
     });
     BOTTOM_ROW.forEach((pi, col) => {
-      const pc = renderPanel(master[pi], pi+1, 8, pw, ph, scale);
+      const pc = rp(master[pi], pi+1, 8, pw, ph, scale);
       ctx.drawImage(pc, col*pw, ph);
     });
 
-    if(guidesChk.checked){
+    if(!layerKey && guidesChk.checked){
       ctx.save();
       ctx.strokeStyle = "rgba(0,0,0,.30)";
       ctx.lineWidth = Math.max(1, 2*scale);
@@ -772,8 +1035,12 @@
     return sides;
   }
 
-  function composeBookletSide(side, N, scale){
-    const W = Math.round(SHEET_W*scale), H = Math.round(SHEET_H*scale);
+  function composeBookletSide(side, N, scale, layerKey){
+    const rp = layerKey
+      ? (panel, n, t, w2, h2, d) => renderPanelLayer(panel, n, t, w2, h2, d, layerKey)
+      : renderPanel;
+    const pp = paperPx();
+    const W = Math.round(pp.W*scale), H = Math.round(pp.H*scale);
     const pw = W/2, ph = H;
     const c = document.createElement("canvas");
     c.width = W; c.height = H;
@@ -782,11 +1049,11 @@
     ctx.fillRect(0,0,W,H);
 
     // half-letter page is 1650px wide at 300dpi → dpiScale = pw/1650
-    const dpi = pw/BOOK_PW;
-    ctx.drawImage(renderPanel(master[side.left-1],  side.left,  N, pw, ph, dpi), 0, 0);
-    ctx.drawImage(renderPanel(master[side.right-1], side.right, N, pw, ph, dpi), pw, 0);
+    const dpi = pw/(paperPx().W/2);
+    ctx.drawImage(rp(master[side.left-1],  side.left,  N, pw, ph, dpi), 0, 0);
+    ctx.drawImage(rp(master[side.right-1], side.right, N, pw, ph, dpi), pw, 0);
 
-    if(guidesChk.checked){
+    if(!layerKey && guidesChk.checked){
       ctx.save();
       ctx.strokeStyle = "rgba(0,0,0,.30)";
       ctx.lineWidth = Math.max(1, 2*scale);
@@ -908,9 +1175,24 @@
     return c;
   }
 
+  // instructions render at letter proportions; center them on bigger papers
+  function howtoOnPaper(base){
+    const pp = paperPx();
+    if(pp.W === SHEET_W && pp.H === SHEET_H) return base;
+    const c = document.createElement("canvas");
+    c.width = pp.W; c.height = pp.H;
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#FCFAF5";
+    ctx.fillRect(0, 0, pp.W, pp.H);
+    const s = Math.min(pp.W/SHEET_W, pp.H/SHEET_H);
+    ctx.drawImage(base, (pp.W - SHEET_W*s)/2, (pp.H - SHEET_H*s)/2, SHEET_W*s, SHEET_H*s);
+    return c;
+  }
+
   /* --------------------------- build cards -------------------------- */
   const panelsEl = document.getElementById("panels");
   let thumbCtxs = [];
+  const openGroups = {};
 
   function rebuildCards(){
     panelsEl.innerHTML = "";
@@ -921,11 +1203,13 @@
   function buildCard(i){
     const p = master[i];
     const label = pageLabel(i, pageCount);
+    const pnl = panelPx();
+    const th = Math.round(330 * pnl.ph / pnl.pw);
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML =
       '<h3>' + label + '<span class="no">' + (i+1) + ' / ' + pageCount + '</span></h3>' +
-      '<canvas class="thumb" width="330" height="510" aria-label="Preview of ' + label + '"></canvas>' +
+      '<canvas class="thumb" width="330" height="' + th + '" aria-label="Preview of ' + label + '"></canvas>' +
       '<div class="field">' +
         '<label for="head-' + i + '">Heading</label>' +
         '<input type="text" id="head-' + i + '" maxlength="60" placeholder="' + (i===0?"Your zine title":"Optional headline") + '">' +
@@ -933,14 +1217,6 @@
       '<div class="field">' +
         '<label for="body-' + i + '">Text</label>' +
         '<textarea id="body-' + i + '" maxlength="700" placeholder="' + (i===0?"Issue no. 1 · your name":"Write something…") + '"></textarea>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label for="font-' + i + '">typeface</label>' +
-        '<select id="font-' + i + '" class="fontsel">' + fontOptions() + '</select>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label id="fglab-' + i + '">text color</label>' +
-        '<span class="swatches inks" role="radiogroup" aria-labelledby="fglab-' + i + '">' + textSwatches("fg-"+i) + '</span>' +
       '</div>' +
       '<div class="field row" style="justify-content:space-between">' +
         '<span class="row">' +
@@ -950,44 +1226,78 @@
         '</span>' +
       '</div>' +
       '<div class="field chipfield" hidden><span class="imgchips"></span></div>' +
-      '<div class="field">' +
-        '<label id="gridlab-' + i + '">image grid</label>' +
-        '<span class="seg" role="radiogroup" aria-labelledby="gridlab-' + i + '">' +
-          segOpt("grid-"+i,"auto","Auto") + segOpt("grid-"+i,"1","1") +
-          segOpt("grid-"+i,"2","2") + segOpt("grid-"+i,"3","3") + segOpt("grid-"+i,"4","4") +
-        '</span>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label id="inklab-' + i + '">Ink 1 — riso overlay</label>' +
-        '<span class="swatches inks" role="radiogroup" aria-labelledby="inklab-' + i + '">' +
-          inkSwatches("ink-"+i) +
-        '</span>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label id="ink2lab-' + i + '">Ink 2 — second pass (two-color)</label>' +
-        '<span class="swatches inks" role="radiogroup" aria-labelledby="ink2lab-' + i + '">' +
-          inkSwatches("ink2-"+i) +
-        '</span>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label id="htlab-' + i + '">Halftone dots</label>' +
-        '<span class="seg" role="radiogroup" aria-labelledby="htlab-' + i + '">' +
-          segOpt("ht-"+i,"off","Off") + segOpt("ht-"+i,"fine","Fine") +
-          segOpt("ht-"+i,"med","Med") + segOpt("ht-"+i,"coarse","Coarse") +
-        '</span>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label id="bglab-' + i + '">page color</label>' +
-        '<span class="swatches inks" role="radiogroup" aria-labelledby="bglab-' + i + '">' + bgSwatches("bg-"+i) + '</span>' +
-      '</div>' +
-      '<div class="field">' +
-        '<label id="szlab-' + i + '">text size</label>' +
-        '<span class="seg" role="radiogroup" aria-labelledby="szlab-' + i + '">' +
-          segOpt("sz-"+i,"s","S") + segOpt("sz-"+i,"m","M") + segOpt("sz-"+i,"l","L") +
-        '</span>' +
-      '</div>';
+
+      '<details class="grp" data-g="type"' + (openGroups[i + ":type"] ? " open" : "") + '>' +
+        '<summary>type &amp; text</summary>' +
+        '<div class="field">' +
+          '<label for="font-' + i + '">typeface</label>' +
+          '<select id="font-' + i + '" class="fontsel">' + fontOptions() + '</select>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="fglab-' + i + '">text color</label>' +
+          '<span class="swatches inks" role="radiogroup" aria-labelledby="fglab-' + i + '">' + textSwatches("fg-"+i) + '</span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="szlab-' + i + '">text size</label>' +
+          '<span class="seg" role="radiogroup" aria-labelledby="szlab-' + i + '">' +
+            segOpt("sz-"+i,"s","S") + segOpt("sz-"+i,"m","M") + segOpt("sz-"+i,"l","L") +
+          '</span>' +
+        '</div>' +
+      '</details>' +
+
+      '<details class="grp" data-g="layout"' + (openGroups[i + ":layout"] ? " open" : "") + '>' +
+        '<summary>image layout</summary>' +
+        '<div class="field">' +
+          '<label id="gridlab-' + i + '">image grid</label>' +
+          '<span class="seg" role="radiogroup" aria-labelledby="gridlab-' + i + '">' +
+            segOpt("grid-"+i,"auto","Auto") + segOpt("grid-"+i,"1","1") +
+            segOpt("grid-"+i,"2","2") + segOpt("grid-"+i,"3","3") + segOpt("grid-"+i,"4","4") +
+          '</span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="poslab-' + i + '">image position</label>' +
+          '<span class="seg" role="radiogroup" aria-labelledby="poslab-' + i + '">' +
+            segOpt("pos-"+i,"top","Top") + segOpt("pos-"+i,"bottom","Bottom") + segOpt("pos-"+i,"behind","Behind") +
+          '</span>' +
+        '</div>' +
+      '</details>' +
+
+      '<details class="grp" data-g="ink"' + (openGroups[i + ":ink"] ? " open" : "") + '>' +
+        '<summary>ink &amp; paper</summary>' +
+        '<div class="field">' +
+          '<label id="inklab-' + i + '">Ink 1 — riso overlay</label>' +
+          '<span class="swatches inks" role="radiogroup" aria-labelledby="inklab-' + i + '">' +
+            inkSwatches("ink-"+i) +
+          '</span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="ink2lab-' + i + '">Ink 2 — second pass (two-color)</label>' +
+          '<span class="swatches inks" role="radiogroup" aria-labelledby="ink2lab-' + i + '">' +
+            inkSwatches("ink2-"+i) +
+          '</span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="htlab-' + i + '">Halftone dots</label>' +
+          '<span class="seg" role="radiogroup" aria-labelledby="htlab-' + i + '">' +
+            segOpt("ht-"+i,"off","Off") + segOpt("ht-"+i,"fine","Fine") +
+            segOpt("ht-"+i,"med","Med") + segOpt("ht-"+i,"coarse","Coarse") +
+          '</span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="bglab-' + i + '">page color</label>' +
+          '<span class="swatches inks" role="radiogroup" aria-labelledby="bglab-' + i + '">' + bgSwatches("bg-"+i) + '</span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label id="texlab-' + i + '">paper texture</label>' +
+          '<span class="seg" role="radiogroup" aria-labelledby="texlab-' + i + '">' +
+            segOpt("tex-"+i,"off","Flat") + segOpt("tex-"+i,"on","Riso grain") +
+          '</span>' +
+        '</div>' +
+      '</details>';
     panelsEl.appendChild(card);
     thumbCtxs.push(card.querySelector(".thumb").getContext("2d"));
+    card.querySelectorAll("details.grp").forEach(d =>
+      d.addEventListener("toggle", () => { openGroups[i + ":" + d.dataset.g] = d.open; }));
 
     // sync values from state
     card.querySelector("#head-"+i).value = p.heading;
@@ -998,6 +1308,8 @@
     card.querySelector('input[name="ink2-'+i+'"][value="'+p.ink2+'"]').checked = true;
     card.querySelector('input[name="ht-'+i+'"][value="'+p.ht+'"]').checked = true;
     card.querySelector('input[name="grid-'+i+'"][value="'+p.grid+'"]').checked = true;
+    card.querySelector('input[name="pos-'+i+'"][value="'+(p.imgpos||"top")+'"]').checked = true;
+    card.querySelector('input[name="tex-'+i+'"][value="'+(p.tex||"off")+'"]').checked = true;
     card.querySelector('input[name="fg-'+i+'"][value="'+p.fg+'"]').checked = true;
     card.querySelector(".fontsel").value = p.font;
 
@@ -1010,6 +1322,8 @@
     bindRadios(card, "ink2-"+i, v => { p.ink2 = v; queueRender(); });
     bindRadios(card, "ht-"+i,   v => { p.ht = v; queueRender(); });
     bindRadios(card, "grid-"+i, v => { p.grid = v; queueRender(); });
+    bindRadios(card, "pos-"+i,  v => { p.imgpos = v; queueRender(); });
+    bindRadios(card, "tex-"+i,  v => { p.tex = v; queueRender(); });
     bindRadios(card, "fg-"+i,   v => { p.fg = v; queueRender(); });
     card.querySelector(".fontsel").addEventListener("change", e => { p.font = e.target.value; queueRender(); });
 
@@ -1140,21 +1454,24 @@
 
   function renderAll(){
     // thumbnails
+    const pnl = panelPx();
+    const th = Math.round(330 * pnl.ph / pnl.pw);
     for(let i=0; i<pageCount; i++){
-      const refW = format === "booklet" ? BOOK_PW : MINI_PW;
-      const pc = renderPanel(master[i], i+1, pageCount, 330, 510, 330/refW);
+      const pc = renderPanel(master[i], i+1, pageCount, 330, th, 330/pnl.pw);
       const t = thumbCtxs[i];
       if(!t) continue;
-      t.clearRect(0,0,330,510);
+      t.clearRect(0, 0, t.canvas.width, t.canvas.height);
       t.drawImage(pc, 0, 0);
     }
-    // press sheets
+    // press sheets (preview width capped so big papers stay light)
     sheetsEl.innerHTML = "";
+    const sheetW = paperPx().W;
     if(format === "mini"){
-      addSheetFigure(composeMiniSheet(0.5), "Press sheet — print single-sided");
+      addSheetFigure(composeMiniSheet(Math.min(0.5, 1650/sheetW)), "Press sheet — print single-sided");
     } else {
+      const s = Math.min(0.4, 1320/sheetW);
       for(const side of bookletSides(pageCount)){
-        addSheetFigure(composeBookletSide(side, pageCount, 0.4), side.label);
+        addSheetFigure(composeBookletSide(side, pageCount, s), side.label);
       }
     }
   }
@@ -1187,29 +1504,77 @@
       await document.fonts.ready;
       await ensureFonts();
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation:"landscape", unit:"in", format:"letter" });
+      const P = PAPERS[paperKey];
+      const pdf = new jsPDF({ orientation:"landscape", unit:"in", format:[P.w, P.h] });
       const addCanvas = (canvas, first) => {
-        if(!first) pdf.addPage("letter","landscape");
-        pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, 11, 8.5);
+        if(!first) pdf.addPage([P.w, P.h], "landscape");
+        pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, P.w, P.h);
       };
       if(format === "mini"){
         addCanvas(composeMiniSheet(1), true);
-        if(document.getElementById("howtoChk").checked) addCanvas(howToMini(), false);
+        if(document.getElementById("howtoChk").checked) addCanvas(howtoOnPaper(howToMini()), false);
       } else {
         const sides = bookletSides(pageCount);
         for(let s=0; s<sides.length; s++){
           addCanvas(composeBookletSide(sides[s], pageCount, 1), s===0);
           await new Promise(r => setTimeout(r, 0)); // let the UI breathe between sheets
         }
-        if(document.getElementById("howtoChk").checked) addCanvas(howToBooklet(pageCount), false);
+        if(document.getElementById("howtoChk").checked) addCanvas(howtoOnPaper(howToBooklet(pageCount)), false);
       }
-      pdf.save(format === "mini" ? "zine-mini-sheet.pdf" : "zine-booklet-" + pageCount + "pp.pdf");
+      pdf.save(format === "mini" ? "zine-mini-" + paperKey + ".pdf" : "zine-booklet-" + pageCount + "pp-" + paperKey + ".pdf");
     }catch(err){
       console.error(err);
       alert("The PDF couldn't be generated. Check that your images loaded, then try again.");
     }finally{
       exportBtn.disabled = false;
       exportBtn.textContent = "Print the PDF ↓";
+    }
+  });
+
+  /* ----------------------- riso separations export ------------------ */
+  const risoBtn = document.getElementById("risoBtn");
+  risoBtn.addEventListener("click", async () => {
+    risoBtn.disabled = true;
+    risoBtn.textContent = "separating\u2026";
+    try{
+      await document.fonts.ready;
+      await ensureFonts();
+      const layers = collectInkLayers();
+      if(!layers.length){
+        alert("Nothing to separate yet \u2014 add some text or images first.");
+        return;
+      }
+      const P = PAPERS[paperKey];
+      const pdf = new jsPDF2();
+      function jsPDF2(){
+        const { jsPDF } = window.jspdf;
+        return new jsPDF({ orientation:"landscape", unit:"in", format:[P.w, P.h] });
+      }
+      const addCanvas = (canvas, first) => {
+        if(!first) pdf.addPage([P.w, P.h], "landscape");
+        pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, P.w, P.h);
+      };
+      const sides = format === "mini" ? null : bookletSides(pageCount);
+      const sheetsPerLayer = format === "mini" ? 1 : sides.length;
+      addCanvas(risoKeyPage(layers, sheetsPerLayer), true);
+      for(const K of layers){
+        if(format === "mini"){
+          addCanvas(composeMiniSheet(1, K), false);
+        } else {
+          for(const side of sides){
+            addCanvas(composeBookletSide(side, pageCount, 1, K), false);
+            await new Promise(r => setTimeout(r, 0));
+          }
+        }
+        await new Promise(r => setTimeout(r, 0));
+      }
+      pdf.save("zine-riso-separations-" + paperKey + ".pdf");
+    }catch(err){
+      console.error(err);
+      alert("The separations couldn't be generated \u2014 please try again.");
+    }finally{
+      risoBtn.disabled = false;
+      risoBtn.textContent = "Print with riso \u2193";
     }
   });
 
@@ -1223,6 +1588,7 @@
   function applyFormatUI(){
     document.querySelector('input[name="format"][value="' + format + '"]').checked = true;
     pcount.value = String(pageCount);
+    document.getElementById("psize").value = paperKey;
     countbox.hidden = format !== "booklet";
     stepsMini.hidden = format !== "mini";
     stepsBooklet.hidden = format !== "booklet";
@@ -1239,6 +1605,12 @@
     }));
   pcount.addEventListener("change", () => {
     pageCount = parseInt(pcount.value, 10);
+    rebuildCards();
+    queueRender();
+  });
+  const psize = document.getElementById("psize");
+  psize.addEventListener("change", () => {
+    paperKey = PAPERS[psize.value] ? psize.value : "letter";
     rebuildCards();
     queueRender();
   });
@@ -1271,11 +1643,11 @@
   /* ------------------------ save / open project --------------------- */
   document.getElementById("saveBtn").addEventListener("click", () => {
     const data = {
-      app:"paste-up", version:2, format, pageCount,
+      app:"paste-up", version:2, format, pageCount, paper:paperKey,
       panels: master.map(p => ({
         heading:p.heading, body:p.body, bg:p.bg, size:p.size,
         font:p.font, fg:p.fg,
-        ink:p.ink, ink2:p.ink2, ht:p.ht, grid:p.grid,
+        ink:p.ink, ink2:p.ink2, ht:p.ht, grid:p.grid, imgpos:p.imgpos, tex:p.tex,
         imgs: p.imgs.filter(im => im.src && im.naturalWidth).map(im => im.src)
       }))
     };
@@ -1307,6 +1679,7 @@
         const allowed = [8,12,16,20,24];
         pageCount = format === "mini" ? 8 :
           (allowed.indexOf(data.pageCount) !== -1 ? data.pageCount : 8);
+        paperKey = PAPERS[data.paper] ? data.paper : "letter";
         for(let i=0; i<MAXP; i++){
           const s = data.panels[i] || {};
           const p = master[i];
@@ -1322,6 +1695,8 @@
           p.ink2 = LEGACY_INKS[s.ink2] || ((s.ink2 === "none" || INKS[s.ink2]) ? s.ink2 : "none");
           p.ht   = (s.ht === "off" || HT_CELLS[s.ht]) ? s.ht : "off";
           p.grid = ["auto","1","2","3","4"].indexOf(s.grid) !== -1 ? s.grid : "auto";
+          p.imgpos = ["top","bottom","behind"].indexOf(s.imgpos) !== -1 ? s.imgpos : "top";
+          p.tex = s.tex === "on" ? "on" : "off";
           p.imgs = [];
           const srcs = Array.isArray(s.imgs) ? s.imgs.slice(0,4)
                      : (typeof s.img === "string" ? [s.img] : []);   // v1 files held one image
@@ -1389,10 +1764,13 @@
   }
 
   function openReader(){
-    const refW = format === "booklet" ? BOOK_PW : MINI_PW;
+    const pnl = panelPx();
+    const pH = Math.round(520 * pnl.ph / pnl.pw);
+    [leftC, rightC, flipFrontC, flipBackC].forEach(cv => { cv.width = 520; cv.height = pH; });
+    document.getElementById("book").style.aspectRatio = String((2*520)/pH);
     pageCanvs = [];
     for(let i=0; i<pageCount; i++){
-      pageCanvs.push(renderPanel(master[i], i+1, pageCount, 520, 804, 520/refW));
+      pageCanvs.push(renderPanel(master[i], i+1, pageCount, 520, pH, 520/pnl.pw));
     }
     spreads = [[null, 0]];
     for(let i=1; i<pageCount-1; i+=2) spreads.push([i, i+1]);
