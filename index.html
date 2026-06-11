@@ -3,215 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZINEMACHINE — one-sheet zine press</title>
+<title>zine_machine — zines on the go</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&family=Playfair+Display:wght@700&family=Lora&family=Oswald:wght@600&family=Permanent+Marker&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
-    --bgdesk:#C5D0D5;
-    --card:#E2EAEC;
-    --card2:#F5F8F8;
-    --ink:#1C232B;
-    --line:#9DAFB7;
-    --muted:#5C6B74;
-    --accent:#1C5DB4;
-    --accent-d:#164A92;
-    --blue:#3D74CC;
+    --paper:#E8EFF4;
+    --paper2:#F4F8FB;
+    --ink:#2A241C;
+    --line:#A7B6C2;
+    --muted:#5F6E7A;
+    --scrap:#C9AC79;
+    --hl:#FFE800;
+    --hl-d:#EFD400;
+    --focus:#3255A4;
     --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
     --mono:"IBM Plex Mono","Courier New",monospace;
-    /* output colors used by swatches */
-    --paper:#FCFAF5;
-    --pink:#FF48B0;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{
     font-family:var(--mono);
     color:var(--ink);
-    background:
-      repeating-linear-gradient(0deg, transparent 0 4px, rgba(40,62,78,.03) 4px 5px),
-      var(--bgdesk);
+    background:var(--paper);
     min-height:100vh;
-    padding:0 0 80px;
+    padding:0 0 60px;
     font-size:14px;
   }
-  ::selection{background:var(--blue);color:var(--card2)}
+  ::selection{background:var(--hl);color:var(--ink)}
 
-  /* ---------- header ---------- */
-  .masthead{max-width:1180px;margin:0 auto;padding:52px 24px 8px}
-  .masthead .stamp{
-    display:inline-block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-    border:1px solid var(--ink);padding:5px 12px;background:var(--card);
+  /* ---------- masthead ---------- */
+  .masthead{max-width:1180px;margin:0 auto;padding:48px 24px 8px}
+  .spec-meta{
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-size:10px;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);
+    border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:44px;
   }
-  h1{
-    font-family:var(--sans);font-weight:700;
-    font-size:clamp(46px,9vw,104px);line-height:.95;letter-spacing:-.035em;
-    margin:20px 0 12px;text-transform:lowercase;
+  .wordmark{
+    font-family:var(--sans);font-weight:700;text-transform:lowercase;
+    font-size:clamp(42px,8vw,100px);line-height:.98;letter-spacing:-.035em;
+    margin:0 0 12px;
   }
-  h1 .dot{color:var(--accent)}
-  .lede{max-width:64ch;font-size:14px;line-height:1.7}
+  .intro{display:flex;gap:52px;flex-wrap:wrap;align-items:flex-start;margin-top:38px}
+  .bluescrap{
+    flex:1 1 36ch;max-width:68ch;background:var(--scrap);
+    padding:26px 30px;transform:rotate(-.4deg);
+    clip-path:polygon(0 1%, 99.5% 0, 100% 99%, .5% 100%);
+    box-shadow:0 2px 8px rgba(30,45,60,.14);
+  }
+  .lede{font-size:13.5px;line-height:1.8}
   .lede b{font-weight:700}
+  .schemwrap{flex:0 0 auto;display:flex;flex-direction:column;gap:10px;max-width:240px}
+  .schematic{width:210px;max-width:100%;stroke:var(--ink);fill:none;stroke-width:1.5;opacity:.8}
+  .annot{font-style:italic;font-size:11px;line-height:1.55;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+  .annot .arr{flex:0 0 auto;width:44px;stroke:var(--muted);fill:none;stroke-width:1.3;margin-top:2px}
 
   /* ---------- layout ---------- */
   .wrap{max-width:1180px;margin:0 auto;padding:24px}
   .section-label{
-    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
-    display:flex;align-items:center;gap:12px;margin:42px 0 18px;
+    display:flex;align-items:baseline;gap:16px;
+    border-top:1px solid var(--ink);padding-top:10px;margin:56px 0 26px;
   }
-  .section-label .num{color:var(--accent);font-weight:600}
-  .section-label::after{content:"";flex:1;border-top:1px solid var(--line)}
+  .section-label .meta{font-size:10px;letter-spacing:.14em;text-transform:lowercase;color:var(--muted)}
+  .section-label .num{color:var(--focus);font-weight:600}
+  .section-label .r{margin-left:auto;text-align:right}
+  .section-label .title{
+    font-family:var(--sans);font-weight:600;font-size:19px;letter-spacing:-.01em;
+    text-transform:lowercase;text-align:left;color:var(--ink);
+  }
 
   /* ---------- format picker ---------- */
-  .formatbar{
-    background:var(--card);border:1px solid var(--line);padding:18px 20px;
-    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
-    display:flex;flex-wrap:wrap;gap:14px;align-items:center;
-  }
+  .formatbar{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
   .fmt{position:relative;cursor:pointer}
   .fmt input{position:absolute;opacity:0;inset:0;cursor:pointer}
   .fmt span{
-    display:block;border:1px solid var(--line);background:var(--card2);
+    display:block;border:1px solid var(--ink);background:var(--paper2);
     padding:10px 14px;font-size:12px;line-height:1.55;
   }
-  .fmt b{display:block;font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:0;text-transform:lowercase}
-  .fmt input:checked + span{background:var(--ink);color:var(--card);border-color:var(--ink)}
-  .fmt input:checked + span b{color:#9FC0E8}
-  .fmt input:focus-visible + span{outline:2px solid var(--blue);outline-offset:2px}
+  .fmt b{display:block;font-family:var(--sans);font-weight:600;font-size:14px;text-transform:lowercase}
+  .fmt input:checked + span{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .fmt input:checked + span b{color:var(--hl)}
+  .fmt input:focus-visible + span{outline:2px solid var(--focus);outline-offset:2px}
   .countbox{display:flex;gap:8px;align-items:center;font-size:12px}
-  .countbox label{letter-spacing:.16em;text-transform:uppercase;font-size:10px;color:var(--muted)}
+  .countbox label{letter-spacing:.14em;text-transform:lowercase;font-size:10px;color:var(--muted)}
   .countbox select{
-    font-family:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);
-    background:var(--card2);padding:8px 10px;cursor:pointer;color:var(--ink);
+    font-family:inherit;font-size:13px;font-weight:600;border:1px solid var(--ink);
+    background:var(--paper2);padding:8px 10px;cursor:pointer;color:var(--ink);
   }
-  .countbox select:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+  .countbox select:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
 
-  /* ---------- panel cards: manila file folders ---------- */
-  .panels{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:30px 26px}
-  .card{
-    background:var(--card);border:1px solid var(--line);
-    padding:16px 14px;position:relative;border-radius:0 3px 3px 3px;
-    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
-  }
-  .card::before{
-    content:"";position:absolute;top:-13px;left:-1px;width:104px;height:13px;
-    background:var(--card);border:1px solid var(--line);border-bottom:none;
-    border-radius:3px 3px 0 0;
-  }
+  /* ---------- panel entries ---------- */
+  .panels{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:34px 30px}
+  .card{border-top:1px solid var(--ink);padding:12px 0 6px;position:relative}
   .card h3{
-    font-weight:600;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    display:flex;justify-content:space-between;align-items:baseline;margin:2px 2px 12px;
+    font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:lowercase;
+    display:flex;justify-content:space-between;align-items:baseline;margin:0 0 12px;
+    color:var(--muted);
   }
-  .card h3 .no{color:var(--accent);font-size:10px}
+  .card h3 .no{color:var(--focus);font-size:10px}
   .thumb{
-    width:100%;aspect-ratio:330/510;display:block;background:#D5E0E4;
+    width:100%;aspect-ratio:330/510;display:block;background:#D9E3EA;
     outline:1px solid var(--ink);margin-bottom:12px;cursor:pointer;
   }
-  .thumb.drag{outline:2px dashed var(--blue);outline-offset:-2px}
+  .thumb.drag{outline:2px dashed var(--focus);outline-offset:-2px}
   .field{margin-bottom:10px}
   .field label{
-    display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    display:block;font-size:10px;letter-spacing:.14em;text-transform:lowercase;
     margin-bottom:4px;color:var(--muted);
   }
-  .field input[type=text], .field textarea{
-    width:100%;font-family:inherit;font-size:13px;line-height:1.5;
-    border:1px solid var(--line);background:var(--card2);
-    padding:7px 8px;color:var(--ink);
+  .field input[type=text]{
+    width:100%;font-family:inherit;font-size:13px;line-height:1.6;
+    border:none;border-bottom:1px solid var(--ink);background:transparent;
+    padding:4px 2px 5px;color:var(--ink);border-radius:0;
   }
-  .field textarea{resize:vertical;min-height:64px}
-  .field input:focus, .field textarea:focus, button:focus-visible,
+  .field textarea{
+    width:100%;font-family:inherit;font-size:13px;line-height:24px;
+    border:none;border-bottom:1px solid var(--ink);border-radius:0;
+    background:
+      repeating-linear-gradient(transparent 0 23px, var(--line) 23px 24px),
+      var(--paper2);
+    padding:0 6px;color:var(--ink);
+    resize:vertical;min-height:96px;
+  }
+  .field input[type=text]:focus, .field textarea:focus{
+    outline:none;border-bottom:2px solid var(--focus);
+  }
+  button:focus-visible,
   .swatch input:focus-visible + span, .seg input:focus-visible + span{
-    outline:2px solid var(--blue);outline-offset:1px;
+    outline:2px solid var(--focus);outline-offset:1px;
   }
   .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
   .filebtn{
     display:inline-block;cursor:pointer;font-family:inherit;color:var(--ink);
-    font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;
-    border:1px solid var(--ink);background:var(--card2);padding:7px 10px;
+    font-size:11px;letter-spacing:.08em;text-transform:lowercase;font-weight:600;
+    border:1px solid var(--ink);background:var(--paper2);padding:7px 10px;
   }
-  .filebtn:hover{background:var(--ink);color:var(--card)}
+  .filebtn:hover{background:var(--ink);color:var(--paper)}
   .clearimg{
-    font-family:inherit;font-size:11px;letter-spacing:.08em;cursor:pointer;
+    font-family:inherit;font-size:11px;letter-spacing:.06em;cursor:pointer;
     background:none;border:none;text-decoration:underline;color:var(--muted);padding:6px 2px;
   }
-  .clearimg:hover{color:var(--accent)}
+  .clearimg:hover{color:var(--focus)}
+  .imgchips{display:flex;gap:6px;flex-wrap:wrap}
+  .imgchips .chip{
+    padding:0;border:1px solid var(--ink);background:none;cursor:pointer;
+    line-height:0;position:relative;
+  }
+  .imgchips .chip img{width:30px;height:30px;object-fit:cover;display:block}
+  .imgchips .chip:hover::after{
+    content:"\00d7";position:absolute;inset:0;
+    background:rgba(42,36,28,.65);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1;
+  }
 
   .swatches{display:flex;gap:7px;flex-wrap:wrap}
   .swatch{position:relative;cursor:pointer}
   .swatch input{position:absolute;opacity:0;inset:0;cursor:pointer}
   .swatch span{display:block;width:24px;height:24px;border:1px solid var(--ink)}
-  .swatch input:checked + span{box-shadow:0 0 0 2px var(--accent)}
-  .sw-paper span{background:var(--paper)}
-  .sw-ink span{background:#16140F}
-  .sw-pink span{background:var(--pink)}
+  .swatch input:checked + span{box-shadow:0 0 0 2px var(--focus)}
+  .sw-auto span{background:linear-gradient(135deg,#FCFAF5 50%,#16140F 50%)}
+  .fontsel{
+    width:100%;font-family:inherit;font-size:12px;border:1px solid var(--line);
+    background:var(--paper2);padding:7px 8px;color:var(--ink);cursor:pointer;
+  }
+  .fontsel:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
   .inks .swatch span{width:22px;height:22px}
   .sw-none span{
-    background:linear-gradient(to top left, transparent 46%, var(--ink) 46% 54%, transparent 54%), var(--card2);
+    background:linear-gradient(to top left, transparent 46%, var(--ink) 46% 54%, transparent 54%), var(--paper2);
   }
-  .sw-ipink span{background:#FF48B0}
-  .sw-iblue span{background:#0078BF}
-  .sw-iorange span{background:#FF6C2F}
-  .sw-igreen span{background:#00A95C}
-  .sw-iblack span{background:#16140F}
 
   .seg{display:flex;border:1px solid var(--ink);overflow:hidden;width:max-content}
   .seg label{position:relative;cursor:pointer}
   .seg input{position:absolute;opacity:0;inset:0;cursor:pointer}
   .seg span{
-    display:block;padding:5px 9px;font-size:11px;font-weight:600;background:var(--card2);
+    display:block;padding:5px 9px;font-size:11px;font-weight:600;background:var(--paper2);
     border-right:1px solid var(--ink);
   }
   .seg label:last-child span{border-right:none}
-  .seg input:checked + span{background:var(--ink);color:var(--card)}
+  .seg input:checked + span{background:var(--ink);color:var(--paper)}
 
   /* ---------- press sheets ---------- */
-  .press{
-    background:var(--card);border:1px solid var(--line);padding:22px;
-    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
-  }
-  #sheets{display:grid;gap:24px}
+  .press{background:none}
+  #sheets{display:grid;gap:26px}
   #sheets figure{margin:0}
-  #sheets canvas{width:100%;height:auto;display:block;outline:1px solid var(--ink)}
+  #sheets canvas{width:100%;height:auto;display:block;outline:1px solid var(--ink);box-shadow:0 2px 8px rgba(30,45,60,.12)}
   #sheets figcaption{
-    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    font-size:10px;letter-spacing:.14em;text-transform:lowercase;
     margin-top:8px;color:var(--muted);
   }
-  .press .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:20px}
+  .press .controls{
+    display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:24px;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
   .bigbtn{
-    font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:-.01em;
+    font-family:var(--sans);font-weight:600;font-size:14px;
     text-transform:lowercase;cursor:pointer;
-    background:var(--accent);color:#EAF1F6;
-    border:1px solid var(--ink);padding:13px 24px;border-radius:3px;
+    background:var(--hl);color:var(--ink);
+    border:1px solid var(--ink);padding:12px 22px;
     transition:background .12s ease;
   }
-  .bigbtn:hover{background:var(--accent-d)}
-  .bigbtn:active{background:#103A74}
+  .bigbtn:hover{background:var(--hl-d)}
+  .bigbtn:active{background:#E0C800}
   .bigbtn[disabled]{opacity:.55;cursor:wait}
-  .bigbtn.alt{background:var(--card2);color:var(--ink)}
-  .bigbtn.alt:hover{background:var(--ink);color:var(--card)}
+  .bigbtn.alt{background:var(--paper2)}
+  .bigbtn.alt:hover{background:var(--ink);color:var(--paper)}
   .ghostbtn{
-    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    background:var(--card2);border:1px solid var(--ink);padding:11px 14px;cursor:pointer;color:var(--ink);
+    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:lowercase;
+    background:var(--paper2);border:1px solid var(--ink);padding:11px 14px;cursor:pointer;color:var(--ink);
   }
-  .ghostbtn:hover{background:var(--ink);color:var(--card)}
+  .ghostbtn:hover{background:var(--ink);color:var(--paper)}
   .check{display:flex;gap:8px;align-items:center;font-size:12px;cursor:pointer}
-  .check input{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+  .check input{width:15px;height:15px;accent-color:var(--focus);cursor:pointer}
 
   /* ---------- folding guide ---------- */
-  .fold-steps{
-    background:var(--card);border:1px solid var(--line);padding:22px 24px;
-    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 8px 18px rgba(28,46,58,.09);
-    font-size:13px;line-height:1.75;
-  }
+  .fold-steps{font-size:13px;line-height:1.8;max-width:78ch}
   .fold-steps ol{padding-left:1.4em}
   .fold-steps li{margin-bottom:7px}
-  .fold-steps em{font-style:normal;background:rgba(28,93,180,.14);padding:0 .2em}
+  .fold-steps em{font-style:normal;background:rgba(255,232,0,.4);padding:0 .2em}
+
+  /* ---------- colophon ---------- */
+  .colophon{
+    max-width:1180px;margin:70px auto 0;padding:14px 24px 0;
+    border-top:1px solid var(--ink);
+    font-size:10px;letter-spacing:.1em;text-transform:lowercase;
+    color:var(--muted);
+    display:flex;flex-wrap:wrap;gap:6px 30px;
+  }
+  .apps{
+    margin-top:22px;font-size:11px;letter-spacing:.06em;
+    color:var(--muted);
+  }
 
   /* ---------- flip-through reader ---------- */
   .reader{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center}
   .reader[hidden]{display:none}
-  .reader-scrim{position:absolute;inset:0;background:rgba(15,21,27,.86)}
+  .reader-scrim{position:absolute;inset:0;background:rgba(32,26,18,.86)}
   .reader-ui{position:relative;display:flex;flex-direction:column;gap:16px;align-items:center;max-width:96vw}
   .book{
     position:relative;display:flex;perspective:2200px;
@@ -239,106 +267,53 @@
   .face canvas{width:100%;height:100%;display:block}
   .reader-bar{
     position:relative;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;
-    color:var(--card);font-size:13px;
+    color:var(--paper);font-size:13px;
   }
-  .reader-bar .where{letter-spacing:.18em;text-transform:uppercase;font-size:11px;min-width:14ch;text-align:center}
+  .reader-bar .where{letter-spacing:.14em;text-transform:lowercase;font-size:11px;min-width:14ch;text-align:center}
   .rbtn{
-    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    background:var(--card2);color:var(--ink);border:1px solid var(--ink);
+    font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:lowercase;
+    background:var(--paper2);color:var(--ink);border:1px solid var(--ink);
     padding:9px 14px;cursor:pointer;
   }
-  .rbtn:hover{background:var(--accent);color:#EAF1F6}
-  .rbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .rbtn:hover{background:var(--hl)}
+  .rbtn:focus-visible{outline:2px solid var(--hl);outline-offset:2px}
   .rbtn[disabled]{opacity:.4;cursor:default}
-  .rbtn[disabled]:hover{background:var(--card2);color:var(--ink)}
-
-
-  /* ---------- IBM-manual cover ---------- */
-  .cover{
-    border:1px solid var(--ink);background:#F5F3EC;
-    box-shadow:0 1px 0 rgba(28,46,58,.09), 0 10px 24px rgba(28,46,58,.12);
-  }
-  .cover-top{padding:26px 30px 22px}
-  .cover-top h1{font-size:clamp(30px,4.5vw,46px);margin:0 0 14px;color:var(--accent)}
-  .cover-top h1 .dot{color:var(--ink)}
-  .cover-sub{
-    font-family:var(--sans);font-weight:700;color:var(--accent);
-    font-size:16px;line-height:1.4;margin:0;
-  }
-  .cover-blue{
-    position:relative;background:var(--accent);color:#EAF2FB;
-    padding:36px 130px 58px 64px;
-  }
-  .cover-blue .lede{color:#EAF2FB;flex:1 1 36ch;min-width:30ch}
-  .cover-body{display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap}
-  .schematic{width:230px;max-width:100%;flex:0 0 auto;stroke:#EAF2FB;fill:none;stroke-width:2;margin-top:4px}
-  .holes{
-    position:absolute;left:16px;top:28px;bottom:28px;
-    display:flex;flex-direction:column;justify-content:space-between;
-  }
-  .holes i{
-    width:14px;height:14px;border-radius:50%;background:var(--bgdesk);
-    box-shadow:inset 0 1px 2px rgba(0,0,0,.35);
-  }
-  .vert{
-    position:absolute;right:20px;top:28px;bottom:28px;
-    display:flex;gap:12px;align-items:flex-start;justify-content:flex-end;
-  }
-  .vert .vbig, .vert .vsmall{
-    font-family:var(--sans);font-weight:700;color:#EAF2FB;
-    writing-mode:vertical-rl;transform:rotate(180deg);
-  }
-  .vert .vbig{font-size:clamp(52px,8vw,104px);letter-spacing:-.03em;line-height:.85;text-transform:lowercase}
-  .vert .vsmall{font-size:12px;letter-spacing:.04em;padding-top:4px}
-  .docno{position:absolute;left:64px;bottom:18px;font-size:10px;letter-spacing:.14em;color:#BCD4EF}
-  @media (max-width:760px){
-    .vert{display:none}
-    .cover-blue{padding:28px 28px 50px 56px}
-    .docno{left:56px}
-  }
+  .rbtn[disabled]:hover{background:var(--paper2)}
 
   @media (prefers-reduced-motion: reduce){
     .bigbtn{transition:none}
     .flipper{transition:none}
   }
   @media (max-width:560px){
-    .masthead{padding-top:32px}
-    .press{padding:14px}
+    .masthead{padding-top:30px}
+    .section-label .r{display:none}
   }
 </style>
 </head>
 <body>
 
 <header class="masthead">
-  <div class="cover">
-    <div class="cover-top">
-      <h1>zine machine<span class="dot">.</span></h1>
-      <p class="cover-sub">Zine Machine<br>Field Observation Zine Template</p>
-    </div>
-    <div class="cover-blue">
-      <span class="holes" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-      <div class="cover-body">
-        <p class="lede">The home zine press. Fill your panels with pictures and words — riso inks, halftones, the works — then print on letter paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p>
-        <svg class="schematic" viewBox="0 0 240 180" role="img" aria-label="Press sheet imposition diagram">
-          <rect x="8" y="30" width="224" height="120"/>
-          <line x1="64" y1="30" x2="64" y2="150" stroke-dasharray="5 6"/>
-          <line x1="120" y1="30" x2="120" y2="150" stroke-dasharray="5 6"/>
-          <line x1="176" y1="30" x2="176" y2="150" stroke-dasharray="5 6"/>
-          <line x1="8" y1="90" x2="232" y2="90" stroke-dasharray="5 6"/>
-          <line x1="64" y1="90" x2="176" y2="90" stroke-width="3.5"/>
-          <line x1="8" y1="166" x2="100" y2="166" stroke-width="1.5"/>
-          <line x1="140" y1="166" x2="232" y2="166" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <span class="vert" aria-hidden="true">
-        <span class="vsmall">one-sheet minis · stapled booklets</span>
-      </span>
+  <p class="spec-meta"><span>zine_machine press</span><span>environmental media studio @ georgia state university</span></p>
+  <h1 class="wordmark">zine_machine</h1>
+  <div class="intro">
+    <div class="bluescrap"><p class="lede">A zine press made for creative storytelling on the go and in the field. Fill your panels with images and words — with optional riso inks, halftones, the works — then print on letter-sized paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p></div>
+    <div class="schemwrap">
+      <svg class="schematic" viewBox="0 0 240 180" role="img" aria-label="Press sheet imposition diagram">
+        <rect x="8" y="30" width="224" height="120"/>
+        <line x1="64" y1="30" x2="64" y2="150" stroke-dasharray="5 6"/>
+        <line x1="120" y1="30" x2="120" y2="150" stroke-dasharray="5 6"/>
+        <line x1="176" y1="30" x2="176" y2="150" stroke-dasharray="5 6"/>
+        <line x1="8" y1="90" x2="232" y2="90" stroke-dasharray="5 6"/>
+        <line x1="64" y1="90" x2="176" y2="90" stroke-width="3"/>
+      </svg>
+      <p class="annot"><svg class="arr" viewBox="0 0 60 26"><path d="M4 24 C 22 20, 40 12, 54 4"/><path d="M45 3 l9 1 -3 8"/></svg>eight pages from one letter sheet — folds dashed, the one cut solid</p>
     </div>
   </div>
+  <p class="apps">practical applications: trip logs &middot; recipe minis &middot; protest flyers &middot; love notes &middot; field reports</p>
 </header>
 
 <main class="wrap">
-  <div class="section-label"><span class="num">1.0</span> Pick a format</div>
+  <div class="section-label"><span class="meta num">1.0</span><span class="title">Choose a format</span><span class="meta r">two ways to bind</span></div>
   <div class="formatbar">
     <label class="fmt">
       <input type="radio" name="format" value="mini" checked>
@@ -360,10 +335,10 @@
     </span>
   </div>
 
-  <div class="section-label"><span class="num">2.0</span> Fill your panels</div>
+  <div class="section-label"><span class="meta num">2.0</span><span class="title">design your panels</span><span class="meta r">text · image · ink</span></div>
   <div class="panels" id="panels"></div>
 
-  <div class="section-label"><span class="num">3.0</span> Check the press sheets</div>
+  <div class="section-label"><span class="meta num">3.0</span><span class="title">Check the press sheets</span><span class="meta r">300 dpi · letter</span></div>
   <div class="press">
     <div id="sheets"></div>
     <div class="controls">
@@ -378,7 +353,7 @@
     </div>
   </div>
 
-  <div class="section-label"><span class="num">4.0</span> <span id="bindText">Fold &amp; cut</span></div>
+  <div class="section-label"><span class="meta num">4.0</span><span class="title" id="bindText">Fold &amp; cut</span><span class="meta r">no glue required</span></div>
   <div class="fold-steps" id="steps-mini">
     <ol>
       <li><b>Print</b> the PDF single-sided on letter paper, landscape, at 100% scale (no &ldquo;fit to page&rdquo; shrinking).</li>
@@ -400,6 +375,14 @@
     <p style="margin-top:10px">Each page prints next to its faraway partner — page 1 sits beside the last page. <em>The fold sorts them out.</em></p>
   </div>
 </main>
+
+<footer class="colophon">
+  <span>01 paper — us letter, 300 dpi</span>
+  <span>02 formats — mini 8pp &middot; booklet 8–24pp</span>
+  <span>03 inks — nine riso colors</span>
+  <span>04 binding — one cut or two staples</span>
+  <span>05 zm31-0610-1 — folded at home</span>
+</footer>
 
 <div class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-label="Zine preview">
   <div class="reader-scrim" id="readerScrim"></div>
@@ -433,15 +416,67 @@
   const TOP_ROW    = [4,3,2,1];                     // mini imposition (0-based page idx)
   const BOTTOM_ROW = [5,6,7,0];
 
-  const COLORS = {
-    paper:{bg:"#FCFAF5", fg:"#16140F", accent:"#FF48B0"},
-    ink:  {bg:"#16140F", fg:"#FCFAF5", accent:"#FF48B0"},
-    pink: {bg:"#FF48B0", fg:"#16140F", accent:"#FCFAF5"}
+  function hexLum(hex){
+    const n = parseInt(hex.slice(1), 16);
+    const lin = v => { v /= 255; return v <= .04045 ? v/12.92 : Math.pow((v + .055)/1.055, 2.4); };
+    return .2126*lin(n>>16 & 255) + .7152*lin(n>>8 & 255) + .0722*lin(n & 255);
+  }
+  // page color -> legible defaults (pink keeps its classic black-ink riso look)
+  function bgPalette(key){
+    if(key === "paper" || !key) return {bg:"#FCFAF5", fg:"#16140F", accent:"#FF48B0"};
+    const k = key === "ink" ? "black" : key;
+    const bgHex = INKS[k] || "#FCFAF5";
+    const fg = (k === "pink" || hexLum(bgHex) > 0.45) ? "#16140F" : "#FCFAF5";
+    return {bg:bgHex, fg:fg, accent: k === "pink" ? "#FCFAF5" : "#FF48B0"};
+  }
+  const TYPEFACES = {
+    press: {label:"Press — Archivo Black / Space Mono",
+            headWeight:"", head:'"Archivo Black","Arial Black",sans-serif',
+            body:'"Space Mono","Courier New",monospace'},
+    helv:  {label:"Helvetica — bold / regular",
+            headWeight:"700 ", head:'"Helvetica Neue",Helvetica,Arial,sans-serif',
+            body:'"Helvetica Neue",Helvetica,Arial,sans-serif'},
+    typer: {label:"Typewriter — Special Elite",
+            headWeight:"", head:'"Special Elite","Courier New",monospace',
+            body:'"Special Elite","Courier New",monospace'},
+    serif: {label:"Serif — Playfair / Lora",
+            headWeight:"700 ", head:'"Playfair Display",Georgia,serif',
+            body:'"Lora",Georgia,serif'},
+    gothic:{label:"Gothic — Oswald / IBM Plex Mono",
+            headWeight:"600 ", head:'"Oswald","Arial Narrow",sans-serif',
+            body:'"IBM Plex Mono","Courier New",monospace'},
+    marker:{label:"Marker — Permanent Marker / Space Mono",
+            headWeight:"", head:'"Permanent Marker",cursive',
+            body:'"Space Mono","Courier New",monospace'}
   };
+  function ensureFonts(){
+    const loads = [];
+    for(const k in TYPEFACES){
+      const tf = TYPEFACES[k];
+      loads.push(document.fonts.load(tf.headWeight + "32px " + tf.head));
+      loads.push(document.fonts.load("16px " + tf.body));
+    }
+    return Promise.all(loads).catch(() => {});
+  }
   const BODY_SIZES = {s:30, m:38, l:48};
   const INKS = {
-    black:"#16140F", pink:"#FF48B0", blue:"#0078BF", orange:"#FF6C2F", green:"#00A95C"
+    black:   "#000000",
+    gray:    "#88898A",
+    gold:    "#AC936E",
+    scarlet: "#F65058",
+    pink:    "#FF48B0",
+    yellow:  "#FFE800",
+    mint:    "#82D8D5",
+    corn:    "#62A8E5",
+    medblue: "#3255A4"
   };
+  const INK_LABELS = {
+    black:"Black", gray:"Light gray", gold:"Metallic gold", scarlet:"Scarlet",
+    pink:"Fluorescent pink", yellow:"Yellow", mint:"Mint",
+    corn:"Cornflower", medblue:"Medium blue"
+  };
+  // older saved projects used the previous three-ink names
+  const LEGACY_INKS = {blue:"corn", orange:"scarlet", green:"mint"};
   const TONES = {
     full:  {b:1.02, c:1.12},
     dark:  {b:1.45, c:1.35},
@@ -451,7 +486,8 @@
 
   /* ----------------------------- state ----------------------------- */
   const master = Array.from({length:MAXP}, () => ({
-    heading:"", body:"", img:null, bg:"paper", size:"m", ink:"none", ink2:"none", ht:"off"
+    heading:"", body:"", imgs:[], grid:"auto", bg:"paper", size:"m",
+    font:"press", fg:"auto", ink:"none", ink2:"none", ht:"off"
   }));
   let format = "mini";
   let pageCount = 8;
@@ -588,6 +624,34 @@
     ctx.drawImage(base, x, y, w, h);
   }
 
+  // predefined image grids: 1 single, 2 stacked, 3 hero + pair, 4 two-by-two
+  function gridCells(layout, w, h, g){
+    if(layout <= 1) return [{x:0, y:0, w:w, h:h}];
+    if(layout === 2){
+      const rh = (h - g)/2;
+      return [{x:0,y:0,w:w,h:rh},{x:0,y:rh+g,w:w,h:rh}];
+    }
+    if(layout === 3){
+      const heroH = Math.round((h - g)*0.55);
+      const botH = h - g - heroH;
+      const cw = (w - g)/2;
+      return [{x:0,y:0,w:w,h:heroH},
+              {x:0,y:heroH+g,w:cw,h:botH},
+              {x:cw+g,y:heroH+g,w:cw,h:botH}];
+    }
+    const cw = (w - g)/2, rh = (h - g)/2;
+    return [{x:0,y:0,w:cw,h:rh},{x:cw+g,y:0,w:cw,h:rh},
+            {x:0,y:rh+g,w:cw,h:rh},{x:cw+g,y:rh+g,w:cw,h:rh}];
+  }
+
+  function drawImageGrid(ctx, imgs, x, y, w, h, p, dpiScale, f){
+    const layout = p.grid === "auto" ? Math.min(imgs.length, 4) : parseInt(p.grid, 10);
+    const g = layout > 1 ? Math.max(2, Math.round(8*f)) : 0;
+    gridCells(layout, w, h, g).forEach((r, i) => {
+      if(imgs[i]) drawImageInked(ctx, imgs[i], x + r.x, y + r.y, r.w, r.h, p, dpiScale);
+    });
+  }
+
   /* ------------------------- panel rendering ------------------------ */
   // pw/ph: output px. Layout scales from the 825-wide reference panel.
   function renderPanel(p, pageNum, totalPages, pw, ph, dpiScale){
@@ -595,7 +659,11 @@
     c.width = Math.round(pw); c.height = Math.round(ph);
     const ctx = c.getContext("2d");
     const f = pw/825;
-    const col = COLORS[p.bg];
+    const col = bgPalette(p.bg);
+    const tf = TYPEFACES[p.font] || TYPEFACES.press;
+    const fg = (p.fg && p.fg !== "auto")
+      ? (p.fg === "paper" ? "#FCFAF5" : (INKS[p.fg] || col.fg))
+      : col.fg;
     ctx.fillStyle = col.bg;
     ctx.fillRect(0,0,c.width,c.height);
 
@@ -603,15 +671,16 @@
     const hasText = (p.heading.trim() || p.body.trim());
     let textTop = pad;
 
-    if(p.img && p.img.naturalWidth){
+    const imgs = (p.imgs || []).filter(im => im.naturalWidth);
+    if(imgs.length){
       if(hasText){
         const ih = Math.round(ph*0.52);
-        drawImageInked(ctx, p.img, 0, 0, c.width, ih, p, dpiScale);
+        drawImageGrid(ctx, imgs, 0, 0, c.width, ih, p, dpiScale, f);
         ctx.fillStyle = (p.ink !== "none" && INKS[p.ink]) ? INKS[p.ink] : col.accent;
         ctx.fillRect(0, ih, c.width, Math.max(2, 10*f));
         textTop = ih + 10*f + 48*f;
       } else {
-        drawImageInked(ctx, p.img, 0, 0, c.width, c.height, p, dpiScale);
+        drawImageGrid(ctx, imgs, 0, 0, c.width, c.height, p, dpiScale, f);
       }
     }
 
@@ -620,8 +689,8 @@
       let y = textTop;
       if(p.heading.trim()){
         const hs = (p.size==="l" ? 86 : p.size==="s" ? 58 : 72)*f;
-        ctx.font = hs + 'px "Archivo Black","Arial Black",sans-serif';
-        ctx.fillStyle = col.fg;
+        ctx.font = tf.headWeight + hs + "px " + tf.head;
+        ctx.fillStyle = fg;
         ctx.textBaseline = "top";
         for(const line of wrapText(ctx, p.heading.toUpperCase(), maxW)){
           if(y > c.height - pad) break;
@@ -632,8 +701,8 @@
       }
       if(p.body.trim()){
         const bs = BODY_SIZES[p.size]*f;
-        ctx.font = bs + 'px "Space Mono","Courier New",monospace';
-        ctx.fillStyle = col.fg;
+        ctx.font = bs + "px " + tf.body;
+        ctx.fillStyle = fg;
         ctx.textBaseline = "top";
         for(const line of wrapText(ctx, p.body, maxW)){
           if(y > c.height - pad) break;
@@ -644,8 +713,8 @@
     }
 
     if(pageNum >= 2 && pageNum <= totalPages-1){
-      ctx.font = (26*f) + 'px "Space Mono","Courier New",monospace';
-      ctx.fillStyle = col.fg;
+      ctx.font = (26*f) + "px " + tf.body;
+      ctx.fillStyle = fg;
       ctx.globalAlpha = .75;
       ctx.textBaseline = "alphabetic";
       const n = String(pageNum);
@@ -876,11 +945,27 @@
         '<label for="body-' + i + '">Text</label>' +
         '<textarea id="body-' + i + '" maxlength="700" placeholder="' + (i===0?"Issue no. 1 · your name":"Write something…") + '"></textarea>' +
       '</div>' +
+      '<div class="field">' +
+        '<label for="font-' + i + '">typeface</label>' +
+        '<select id="font-' + i + '" class="fontsel">' + fontOptions() + '</select>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label id="fglab-' + i + '">text color</label>' +
+        '<span class="swatches inks" role="radiogroup" aria-labelledby="fglab-' + i + '">' + textSwatches("fg-"+i) + '</span>' +
+      '</div>' +
       '<div class="field row" style="justify-content:space-between">' +
         '<span class="row">' +
-          '<button type="button" class="filebtn">Add image</button>' +
-          '<input type="file" class="filein" accept="image/*" hidden>' +
-          '<button type="button" class="clearimg" hidden>remove</button>' +
+          '<button type="button" class="filebtn">Add images</button>' +
+          '<input type="file" class="filein" accept="image/*" multiple hidden>' +
+          '<button type="button" class="clearimg" hidden>clear</button>' +
+        '</span>' +
+      '</div>' +
+      '<div class="field chipfield" hidden><span class="imgchips"></span></div>' +
+      '<div class="field">' +
+        '<label id="gridlab-' + i + '">image grid</label>' +
+        '<span class="seg" role="radiogroup" aria-labelledby="gridlab-' + i + '">' +
+          segOpt("grid-"+i,"auto","Auto") + segOpt("grid-"+i,"1","1") +
+          segOpt("grid-"+i,"2","2") + segOpt("grid-"+i,"3","3") + segOpt("grid-"+i,"4","4") +
         '</span>' +
       '</div>' +
       '<div class="field">' +
@@ -902,13 +987,13 @@
           segOpt("ht-"+i,"med","Med") + segOpt("ht-"+i,"coarse","Coarse") +
         '</span>' +
       '</div>' +
-      '<div class="field row" style="justify-content:space-between">' +
-        '<span class="swatches" role="radiogroup" aria-label="Background for ' + label + '">' +
-          '<label class="swatch sw-paper" title="Paper"><input type="radio" name="bg-' + i + '" value="paper"><span></span></label>' +
-          '<label class="swatch sw-ink" title="Ink"><input type="radio" name="bg-' + i + '" value="ink"><span></span></label>' +
-          '<label class="swatch sw-pink" title="Riso pink"><input type="radio" name="bg-' + i + '" value="pink"><span></span></label>' +
-        '</span>' +
-        '<span class="seg" role="radiogroup" aria-label="Text size for ' + label + '">' +
+      '<div class="field">' +
+        '<label id="bglab-' + i + '">page color</label>' +
+        '<span class="swatches inks" role="radiogroup" aria-labelledby="bglab-' + i + '">' + bgSwatches("bg-"+i) + '</span>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label id="szlab-' + i + '">text size</label>' +
+        '<span class="seg" role="radiogroup" aria-labelledby="szlab-' + i + '">' +
           segOpt("sz-"+i,"s","S") + segOpt("sz-"+i,"m","M") + segOpt("sz-"+i,"l","L") +
         '</span>' +
       '</div>';
@@ -923,6 +1008,9 @@
     card.querySelector('input[name="ink-'+i+'"][value="'+p.ink+'"]').checked = true;
     card.querySelector('input[name="ink2-'+i+'"][value="'+p.ink2+'"]').checked = true;
     card.querySelector('input[name="ht-'+i+'"][value="'+p.ht+'"]').checked = true;
+    card.querySelector('input[name="grid-'+i+'"][value="'+p.grid+'"]').checked = true;
+    card.querySelector('input[name="fg-'+i+'"][value="'+p.fg+'"]').checked = true;
+    card.querySelector(".fontsel").value = p.font;
 
     // listeners
     card.querySelector("#head-"+i).addEventListener("input", e => { p.heading = e.target.value; queueRender(); });
@@ -932,34 +1020,73 @@
     bindRadios(card, "ink-"+i,  v => { p.ink = v; queueRender(); });
     bindRadios(card, "ink2-"+i, v => { p.ink2 = v; queueRender(); });
     bindRadios(card, "ht-"+i,   v => { p.ht = v; queueRender(); });
+    bindRadios(card, "grid-"+i, v => { p.grid = v; queueRender(); });
+    bindRadios(card, "fg-"+i,   v => { p.fg = v; queueRender(); });
+    card.querySelector(".fontsel").addEventListener("change", e => { p.font = e.target.value; queueRender(); });
 
     const fileInput = card.querySelector(".filein");
     const addBtn    = card.querySelector(".filebtn");
     const clearBtn  = card.querySelector(".clearimg");
     const thumb     = card.querySelector(".thumb");
-    clearBtn.hidden = !p.img;
+    const chipField = card.querySelector(".chipfield");
+    const chips     = card.querySelector(".imgchips");
 
-    function loadFile(f){
-      if(!f) return;
-      if(!f.type || !f.type.startsWith("image/")){
-        alert("That file isn't an image — try a JPG, PNG, GIF, or WebP.");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
+    function refreshChips(){
+      chips.innerHTML = "";
+      chipField.hidden = p.imgs.length === 0;
+      clearBtn.hidden = p.imgs.length === 0;
+      p.imgs.forEach((im, idx) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip";
+        b.title = "remove image " + (idx+1);
+        b.setAttribute("aria-label", "remove image " + (idx+1));
+        const t = document.createElement("img");
+        t.src = im.src; t.alt = "";
+        b.appendChild(t);
+        b.addEventListener("click", () => {
+          p.imgs.splice(idx, 1);
+          refreshChips(); queueRender();
+        });
+        chips.appendChild(b);
+      });
+    }
+    refreshChips();
+
+    function loadFiles(files){
+      if(!files || !files.length) return;
+      const list = Array.prototype.filter.call(files, f => f.type && f.type.indexOf("image/") === 0);
+      if(list.length < files.length) alert("Skipped files that aren't images — JPG, PNG, GIF, or WebP work.");
+      const room = 4 - p.imgs.length;
+      if(room <= 0){ alert("Each panel holds up to four images — remove one first."); return; }
+      if(list.length > room) alert("Each panel holds up to four images — keeping the first " + room + ".");
+      list.slice(0, room).forEach(f => {
         const img = new Image();
-        img.onload = () => { p.img = img; clearBtn.hidden = false; queueRender(); };
-        img.onerror = () => alert("That image couldn't be read — try a JPG or PNG.");
-        img.src = reader.result;
-      };
-      reader.onerror = () => alert("That file couldn't be read — please try again.");
-      reader.readAsDataURL(f);
+        p.imgs.push(img);                 // push now so order matches selection
+        const reader = new FileReader();
+        reader.onload = () => {
+          img.onload = () => { refreshChips(); queueRender(); };
+          img.onerror = () => {
+            const k = p.imgs.indexOf(img);
+            if(k !== -1) p.imgs.splice(k, 1);
+            refreshChips();
+            alert("One image couldn't be read — try a JPG or PNG.");
+          };
+          img.src = reader.result;
+        };
+        reader.onerror = () => {
+          const k = p.imgs.indexOf(img);
+          if(k !== -1) p.imgs.splice(k, 1);
+          alert("One file couldn't be read — please try again.");
+        };
+        reader.readAsDataURL(f);
+      });
     }
 
     addBtn.addEventListener("click", () => fileInput.click());
     thumb.addEventListener("click", () => fileInput.click());
     fileInput.addEventListener("change", e => {
-      loadFile(e.target.files && e.target.files[0]);
+      loadFiles(e.target.files);
       fileInput.value = "";
     });
     ["dragenter","dragover"].forEach(ev => thumb.addEventListener(ev, e => {
@@ -968,20 +1095,48 @@
     thumb.addEventListener("dragleave", () => thumb.classList.remove("drag"));
     thumb.addEventListener("drop", e => {
       e.preventDefault(); thumb.classList.remove("drag");
-      loadFile(e.dataTransfer.files && e.dataTransfer.files[0]);
+      loadFiles(e.dataTransfer.files);
     });
     clearBtn.addEventListener("click", () => {
-      p.img = null; clearBtn.hidden = true; fileInput.value = ""; queueRender();
+      p.imgs = [];
+      refreshChips(); fileInput.value = ""; queueRender();
     });
   }
 
   function inkSwatches(name){
-    return '<label class="swatch sw-none" title="Original colors"><input type="radio" name="' + name + '" value="none"><span></span></label>' +
-      '<label class="swatch sw-iblack" title="Black"><input type="radio" name="' + name + '" value="black"><span></span></label>' +
-      '<label class="swatch sw-ipink" title="Fluorescent pink"><input type="radio" name="' + name + '" value="pink"><span></span></label>' +
-      '<label class="swatch sw-iblue" title="Riso blue"><input type="radio" name="' + name + '" value="blue"><span></span></label>' +
-      '<label class="swatch sw-iorange" title="Riso orange"><input type="radio" name="' + name + '" value="orange"><span></span></label>' +
-      '<label class="swatch sw-igreen" title="Riso green"><input type="radio" name="' + name + '" value="green"><span></span></label>';
+    let out = '<label class="swatch sw-none" title="Original colors"><input type="radio" name="' + name + '" value="none"><span></span></label>';
+    for(const k in INKS){
+      out += '<label class="swatch" title="' + INK_LABELS[k] + '">' +
+        '<input type="radio" name="' + name + '" value="' + k + '">' +
+        '<span style="background:' + INKS[k] + '"></span></label>';
+    }
+    return out;
+  }
+  function bgSwatches(name){
+    let out = '<label class="swatch" title="Paper white"><input type="radio" name="' + name + '" value="paper"><span style="background:#FCFAF5"></span></label>';
+    for(const k in INKS){
+      out += '<label class="swatch" title="' + INK_LABELS[k] + '">' +
+        '<input type="radio" name="' + name + '" value="' + k + '">' +
+        '<span style="background:' + INKS[k] + '"></span></label>';
+    }
+    return out;
+  }
+  function textSwatches(name){
+    let out = '<label class="swatch sw-auto" title="Auto — match page color"><input type="radio" name="' + name + '" value="auto"><span></span></label>' +
+      '<label class="swatch" title="Paper white"><input type="radio" name="' + name + '" value="paper"><span style="background:#FCFAF5"></span></label>';
+    for(const k in INKS){
+      out += '<label class="swatch" title="' + INK_LABELS[k] + '">' +
+        '<input type="radio" name="' + name + '" value="' + k + '">' +
+        '<span style="background:' + INKS[k] + '"></span></label>';
+    }
+    return out;
+  }
+  function fontOptions(){
+    let out = "";
+    for(const k in TYPEFACES){
+      out += '<option value="' + k + '">' + TYPEFACES[k].label + '</option>';
+    }
+    return out;
   }
   function segOpt(name, val, text){
     return '<label><input type="radio" name="' + name + '" value="' + val + '"><span>' + text + '</span></label>';
@@ -1041,6 +1196,7 @@
     exportBtn.textContent = "Pressing…";
     try{
       await document.fonts.ready;
+      await ensureFonts();
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation:"landscape", unit:"in", format:"letter" });
       const addCanvas = (canvas, first) => {
@@ -1104,11 +1260,11 @@
       {heading:"Night Bus", body:"a tiny field guide\nissue no. 1", bg:"pink", size:"m"},
       {heading:"", body:"Everything in this zine was seen from the back seat of the 42, somewhere between midnight and the depot.", bg:"paper", size:"m"},
       {heading:"Seat 14", body:"Someone left a paperback with every third page folded down. A code? A bookmark habit? Unknowable.", bg:"paper", size:"s"},
-      {heading:"The Driver", body:"Hums only descending melodies. Has never once hit a yellow light. We suspect time bends for her.", bg:"ink", size:"s"},
-      {heading:"3:12 AM", body:"The windows turn to mirrors and the whole bus rides through its own reflection.", bg:"ink", size:"m"},
+      {heading:"The Driver", body:"Hums only descending melodies. Has never once hit a yellow light. We suspect time bends for her.", bg:"black", size:"s"},
+      {heading:"3:12 AM", body:"The windows turn to mirrors and the whole bus rides through its own reflection.", bg:"black", size:"m"},
       {heading:"Lost + Found", body:"one glove (left)\none umbrella (broken)\none phone number (unreadable)\none very good dog (claimed)", bg:"paper", size:"s"},
       {heading:"Transfer", body:"Every ride ends. Keep the ticket stub. It's proof you went somewhere.", bg:"pink", size:"m"},
-      {heading:"", body:"made with the Zine Machine\nfold your own at home", bg:"paper", size:"s"}
+      {heading:"", body:"made on the Paste-Up press\nfold your own at home", bg:"paper", size:"s"}
     ];
     ex.forEach((e, i) => {
       if(i >= pageCount) return;
@@ -1126,11 +1282,12 @@
   /* ------------------------ save / open project --------------------- */
   document.getElementById("saveBtn").addEventListener("click", () => {
     const data = {
-      app:"Zine Machine", version:1, format, pageCount,
+      app:"paste-up", version:2, format, pageCount,
       panels: master.map(p => ({
         heading:p.heading, body:p.body, bg:p.bg, size:p.size,
-        ink:p.ink, ink2:p.ink2, ht:p.ht,
-        img: (p.img && p.img.src) ? p.img.src : null
+        font:p.font, fg:p.fg,
+        ink:p.ink, ink2:p.ink2, ht:p.ht, grid:p.grid,
+        imgs: p.imgs.filter(im => im.src && im.naturalWidth).map(im => im.src)
       }))
     };
     const blob = new Blob([JSON.stringify(data)], {type:"application/json"});
@@ -1153,7 +1310,7 @@
     reader.onload = () => {
       try{
         const data = JSON.parse(reader.result);
-        if(!data || data.app !== "Zine Machine" || !Array.isArray(data.panels)){
+        if(!data || data.app !== "paste-up" || !Array.isArray(data.panels)){
           alert("That file doesn't look like a Zine Machine project.");
           return;
         }
@@ -1166,18 +1323,27 @@
           const p = master[i];
           p.heading = typeof s.heading === "string" ? s.heading.slice(0,60) : "";
           p.body    = typeof s.body === "string" ? s.body.slice(0,700) : "";
-          p.bg   = COLORS[s.bg] ? s.bg : "paper";
+          p.bg = s.bg === "paper" ? "paper"
+               : s.bg === "ink" ? "black"
+               : (INKS[s.bg] ? s.bg : (LEGACY_INKS[s.bg] || "paper"));
+          p.font = TYPEFACES[s.font] ? s.font : "press";
+          p.fg = (s.fg === "auto" || s.fg === "paper" || INKS[s.fg]) ? s.fg : (LEGACY_INKS[s.fg] || "auto");
           p.size = BODY_SIZES[s.size] ? s.size : "m";
-          p.ink  = (s.ink === "none" || INKS[s.ink]) ? s.ink : "none";
-          p.ink2 = (s.ink2 === "none" || INKS[s.ink2]) ? s.ink2 : "none";
+          p.ink  = LEGACY_INKS[s.ink]  || ((s.ink === "none"  || INKS[s.ink])  ? s.ink  : "none");
+          p.ink2 = LEGACY_INKS[s.ink2] || ((s.ink2 === "none" || INKS[s.ink2]) ? s.ink2 : "none");
           p.ht   = (s.ht === "off" || HT_CELLS[s.ht]) ? s.ht : "off";
-          p.img = null;
-          if(typeof s.img === "string" && s.img.indexOf("data:image/") === 0){
-            const img = new Image();
-            img.onload = () => queueRender();   // re-render once each photo arrives
-            img.src = s.img;
-            p.img = img;
-          }
+          p.grid = ["auto","1","2","3","4"].indexOf(s.grid) !== -1 ? s.grid : "auto";
+          p.imgs = [];
+          const srcs = Array.isArray(s.imgs) ? s.imgs.slice(0,4)
+                     : (typeof s.img === "string" ? [s.img] : []);   // v1 files held one image
+          srcs.forEach(src => {
+            if(typeof src === "string" && src.indexOf("data:image/") === 0){
+              const img = new Image();
+              img.onload = () => queueRender();   // re-render as each photo arrives
+              img.src = src;
+              p.imgs.push(img);
+            }
+          });
         }
         applyFormatUI();
         rebuildCards();
@@ -1319,6 +1485,7 @@
 
   /* ------------------------------ init ------------------------------ */
   rebuildCards();
+  ensureFonts().then(renderAll);
   document.fonts.ready.then(renderAll);
   renderAll();
 })();
