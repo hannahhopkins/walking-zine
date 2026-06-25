@@ -5,21 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>zine_machine — the home zine press</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&family=Playfair+Display:wght@700&family=Lora&family=Oswald:wght@600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&family=Playfair+Display:wght@700&family=Lora&family=Oswald:wght@600&family=Permanent+Marker&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
-    --paper:#E8EFF4;
-    --paper2:#F4F8FB;
-    --ink:#2A241C;
-    --line:#A7B6C2;
-    --muted:#5F6E7A;
-    --scrap:#C9AC79;
-    --hl:#FFE800;
-    --hl-d:#EFD400;
-    --focus:#3255A4;
-    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
-    --mono:"IBM Plex Mono","Courier New",monospace;
+    --paper:#F7F4E8;
+    --paper2:#FBFAF1;
+    --ink:#1E4E8C;
+    --line:#C9C3A8;
+    --muted:#5C6072;
+    --scrap:#FBFAF1;
+    --hl:#1E4E8C;
+    --hl-d:#173E70;
+    --focus:#1E4E8C;
+    --cobalt:#2438C8;
+    --sans:"Helvetica Neue",Helvetica,sans-serif;
+    --mono:"Manrope","Helvetica Neue",sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -41,6 +42,7 @@
     border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:44px;
   }
   .wordmark{
+    color:var(--ink);display:inline-block;
     font-family:var(--sans);font-weight:700;text-transform:lowercase;
     font-size:clamp(42px,8vw,100px);line-height:.98;letter-spacing:-.035em;
     margin:0 0 12px;
@@ -89,7 +91,7 @@
   }
   .fmt b{display:block;font-family:var(--sans);font-weight:600;font-size:14px;text-transform:lowercase}
   .fmt input:checked + span{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .fmt input:checked + span b{color:var(--hl)}
+  .fmt input:checked + span b{color:var(--paper)}
   .fmt input:focus-visible + span{outline:2px solid var(--focus);outline-offset:2px}
   .countbox{display:flex;gap:8px;align-items:center;font-size:12px}
   .countbox label{letter-spacing:.14em;text-transform:lowercase;font-size:10px;color:var(--muted)}
@@ -109,7 +111,7 @@
   }
   .card h3 .no{color:var(--focus);font-size:10px}
   .thumb{
-    width:100%;height:auto;display:block;background:#D9E3EA;
+    width:100%;height:auto;display:block;background:#E8E3CF;
     outline:1px solid var(--ink);margin-bottom:12px;cursor:pointer;
   }
   .thumb.drag{outline:2px dashed var(--focus);outline-offset:-2px}
@@ -218,14 +220,14 @@
   .bigbtn{
     font-family:var(--sans);font-weight:600;font-size:14px;
     text-transform:lowercase;cursor:pointer;
-    background:var(--hl);color:var(--ink);
+    background:var(--hl);color:#FFFFFF;
     border:1px solid var(--ink);padding:12px 22px;
     transition:background .12s ease;
   }
   .bigbtn:hover{background:var(--hl-d)}
-  .bigbtn:active{background:#E0C800}
+  .bigbtn:active{background:var(--hl-d)}
   .bigbtn[disabled]{opacity:.55;cursor:wait}
-  .bigbtn.alt{background:var(--paper2)}
+  .bigbtn.alt{background:var(--paper2);color:var(--ink)}
   .bigbtn.alt:hover{background:var(--ink);color:var(--paper)}
   .ghostbtn{
     font-family:inherit;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:lowercase;
@@ -249,7 +251,7 @@
   }
   .steps p{font-size:12px;line-height:1.65}
   .stepnote{margin-top:24px;font-size:12px;max-width:62ch}
-  .fold-steps em{font-style:normal;background:rgba(255,232,0,.4);padding:0 .2em}
+  .fold-steps em{font-style:normal;background:rgba(36,56,200,.16);padding:0 .2em}
 
   /* ---------- colophon ---------- */
   .colophon{
@@ -316,6 +318,12 @@
     .masthead{padding-top:30px}
     .section-label .r{display:none}
   }
+  #risoBtn{
+    background:#2438C8;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    color:#FFFFFF;border-color:#1B2BA0;
+  }
+  #risoBtn:hover{background:#1B2BA0;color:#FFFFFF}
 </style>
 </head>
 <body>
@@ -599,8 +607,8 @@
             headWeight:"", head:'"Archivo Black","Arial Black",sans-serif',
             body:'"Space Mono","Courier New",monospace'},
     helv:  {label:"Helvetica — bold / regular",
-            headWeight:"700 ", head:'"Helvetica Neue",Helvetica,Arial,sans-serif',
-            body:'"Helvetica Neue",Helvetica,Arial,sans-serif'},
+            headWeight:"700 ", head:'"Helvetica Neue",Helvetica,sans-serif',
+            body:'"Helvetica Neue",Helvetica,sans-serif'},
     typer: {label:"Typewriter — Special Elite",
             headWeight:"", head:'"Special Elite","Courier New",monospace',
             body:'"Special Elite","Courier New",monospace'},
@@ -1087,7 +1095,7 @@
     ctx.fillStyle = "#FCFAF5"; ctx.fillRect(0, 0, pp.W, pp.H);
     ctx.fillStyle = "#16140F";
     ctx.textBaseline = "top";
-    ctx.font = "700 " + Math.round(130*u) + 'px "Helvetica Neue",Helvetica,Arial,sans-serif';
+    ctx.font = "700 " + Math.round(130*u) + 'px "Helvetica Neue",Helvetica,sans-serif';
     ctx.fillText("riso separations", 180*u, 140*u);
     ctx.font = Math.round(46*u) + 'px "IBM Plex Mono","Courier New",monospace';
     let y = 330*u, page = 2;
