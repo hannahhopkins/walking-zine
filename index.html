@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>zine_machine — the home zine press</title>
+<title>zine_machine [bright / airy] — the home zine press</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&family=Playfair+Display:wght@700&family=Lora&family=Oswald:wght@600&family=Permanent+Marker&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
-    --paper:#F7F4E8;
-    --paper2:#FBFAF1;
-    --ink:#1E4E8C;
-    --line:#C9C3A8;
-    --muted:#5C6072;
-    --scrap:#FBFAF1;
-    --hl:#1E4E8C;
-    --hl-d:#173E70;
-    --focus:#1E4E8C;
-    --cobalt:#2438C8;
+    --paper:#DCEAF0;
+    --paper2:#ECF4F6;
+    --ink:#22282B;
+    --line:#B6CBD4;
+    --muted:#566169;
+    --scrap:#ECF4F6;
+    --hl:#22282B;
+    --hl-d:#12161A;
+    --focus:#22282B;
+    --cobalt:#22282B;
     --sans:"Helvetica Neue",Helvetica,sans-serif;
     --mono:"Manrope","Helvetica Neue",sans-serif;
   }
@@ -32,27 +32,46 @@
     padding:0 0 60px;
     font-size:14px;
   }
-  ::selection{background:var(--hl);color:var(--ink)}
+  ::selection{background:var(--hl);color:var(--paper)}
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30  0 0 0 0 0.34  0 0 0 0 0.38  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E");
+    background-size:200px 200px;
+    opacity:1;
+  }
+  .masthead, .wrap{position:relative;z-index:1}
 
   /* ---------- masthead ---------- */
   .masthead{max-width:1180px;margin:0 auto;padding:48px 24px 8px}
   .spec-meta{
     display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
     font-size:10px;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);
-    border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:44px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:9px;margin-bottom:40px;
   }
   .wordmark{
-    color:var(--ink);display:inline-block;
-    font-family:var(--sans);font-weight:700;text-transform:lowercase;
-    font-size:clamp(42px,8vw,100px);line-height:.98;letter-spacing:-.035em;
-    margin:0 0 12px;
+    display:block;position:relative;
+    font-family:var(--sans);font-weight:700;text-transform:uppercase;
+    font-size:clamp(48px,12vw,132px);line-height:.84;letter-spacing:-.04em;
+    margin:0 0 4px;max-width:11ch;
+    color:var(--ink);
+  }
+  /* fine even paper tooth dropped over the ink letters — printed, not damaged */
+  .wordmark::after{
+    content:attr(data-word);
+    position:absolute;inset:0;color:var(--paper);
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
+    -webkit-mask-size:90px 90px;mask-size:90px 90px;
+    -webkit-mask-repeat:repeat;mask-repeat:repeat;
+    pointer-events:none;
   }
   .intro{display:flex;gap:52px;flex-wrap:wrap;align-items:flex-start;margin-top:38px}
   .bluescrap{
     width:100%;background:var(--scrap);
-    padding:26px 30px;transform:rotate(-.4deg);
-    clip-path:polygon(0 1%, 99.5% 0, 100% 99%, .5% 100%);
-    box-shadow:0 2px 8px rgba(30,45,60,.14);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.2 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23t)'/%3E%3C/svg%3E");
+    padding:28px 32px;transform:none;
+    clip-path:polygon(0 1.6%, 99% 0, 99.6% 98.8%, .5% 100%);
+    box-shadow:none;border:1px solid var(--line);
   }
   .lede{font-size:13.5px;line-height:1.8;max-width:78ch}
   .printrow{
@@ -220,7 +239,8 @@
   .bigbtn{
     font-family:var(--sans);font-weight:600;font-size:14px;
     text-transform:lowercase;cursor:pointer;
-    background:var(--hl);color:#FFFFFF;
+    background:var(--hl);color:var(--paper);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.2 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23t)'/%3E%3C/svg%3E");
     border:1px solid var(--ink);padding:12px 22px;
     transition:background .12s ease;
   }
@@ -305,7 +325,7 @@
     background:var(--paper2);color:var(--ink);border:1px solid var(--ink);
     padding:9px 14px;cursor:pointer;
   }
-  .rbtn:hover{background:var(--hl)}
+  .rbtn:hover{background:var(--hl);color:var(--paper)}
   .rbtn:focus-visible{outline:2px solid var(--hl);outline-offset:2px}
   .rbtn[disabled]{opacity:.4;cursor:default}
   .rbtn[disabled]:hover{background:var(--paper2)}
@@ -319,18 +339,18 @@
     .section-label .r{display:none}
   }
   #risoBtn{
-    background:#2438C8;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
-    color:#FFFFFF;border-color:#1B2BA0;
+    background:var(--ink);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.2 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23t)'/%3E%3C/svg%3E");
+    color:var(--paper);border-color:var(--hl-d);
   }
-  #risoBtn:hover{background:#1B2BA0;color:#FFFFFF}
+  #risoBtn:hover{background:var(--hl-d);color:var(--paper)}
 </style>
 </head>
 <body>
 
 <header class="masthead">
   <p class="spec-meta"><span>zine_machine — zine press for field notes and more </span><span>georgia state university environmental media studio</span></p>
-  <h1 class="wordmark">zine_machine</h1>
+  <h1 class="wordmark" data-word="zine machine">zine machine</h1>
   <div class="intro">
     <div class="bluescrap"><p class="lede">A zine press made for creative in-the-field storytelling. Design your panels with images and words — with optional riso inks, halftones, the works — then print on letter-sized paper. Choose the <b>one-sheet mini</b> (eight pages, one cut, no staples) or a <b>stapled booklet</b> (up to 24 half-letter pages, printed double-sided). The press sheets handle all the page-shuffling math for you.</p><div class="printrow">
       <div class="printcard">
