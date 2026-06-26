@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>zine_machine [bright / airy] — the home zine press</title>
+<title>zine_machine [A · stacked blocks v2] [bright / airy] — the home zine press</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&family=Playfair+Display:wght@700&family=Lora&family=Oswald:wght@600&family=Permanent+Marker&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
-    --paper:#DCEAF0;
-    --paper2:#ECF4F6;
-    --ink:#22282B;
-    --line:#B6CBD4;
-    --muted:#566169;
-    --scrap:#ECF4F6;
-    --hl:#22282B;
-    --hl-d:#12161A;
-    --focus:#22282B;
-    --cobalt:#22282B;
+    --paper:#F6F5F1;
+    --paper2:#FFFFFF;
+    --ink:#1A1A1A;
+    --line:#DAD8D2;
+    --muted:#62655F;
+    --scrap:#3A57AD;
+    --hl:#3A57AD;
+    --hl-d:#2C4690;
+    --focus:#3A57AD;
+    --cobalt:#3A57AD;
+    --blockhead:#3A57AD;
+    --pop:#D1D001;
     --sans:"Helvetica Neue",Helvetica,sans-serif;
     --mono:"Manrope","Helvetica Neue",sans-serif;
   }
@@ -35,9 +37,8 @@
   ::selection{background:var(--hl);color:var(--paper)}
   body::before{
     content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30  0 0 0 0 0.34  0 0 0 0 0.38  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)'/%3E%3C/svg%3E");
-    background-size:200px 200px;
-    opacity:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='pg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.53  0 0 0 0 0.48  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23pg)'/%3E%3C/svg%3E");
+    background-size:200px 200px;opacity:1;
   }
   .masthead, .wrap{position:relative;z-index:1}
 
@@ -49,38 +50,28 @@
     border-bottom:1.5px solid var(--ink);padding-bottom:9px;margin-bottom:40px;
   }
   .wordmark{
-    display:block;position:relative;
-    font-family:var(--sans);font-weight:700;text-transform:uppercase;
-    font-size:clamp(48px,12vw,132px);line-height:.84;letter-spacing:-.04em;
-    margin:0 0 4px;max-width:11ch;
-    color:var(--ink);
-  }
-  /* fine even paper tooth dropped over the ink letters — printed, not damaged */
-  .wordmark::after{
-    content:attr(data-word);
-    position:absolute;inset:0;color:var(--paper);
-    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
-    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
-    -webkit-mask-size:90px 90px;mask-size:90px 90px;
-    -webkit-mask-repeat:repeat;mask-repeat:repeat;
-    pointer-events:none;
+    display:block;font-family:var(--sans);font-weight:700;text-transform:lowercase;
+    font-size:clamp(46px,11vw,128px);line-height:.9;letter-spacing:-.045em;
+    margin:0 0 6px;color:var(--ink);
   }
   .intro{display:flex;gap:52px;flex-wrap:wrap;align-items:flex-start;margin-top:38px}
   .bluescrap{
-    width:100%;background:var(--scrap);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.68  0 0 0 0 0.8  0 0 0 0 0.87  0 0 0 0.2 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23t)'/%3E%3C/svg%3E");
-    padding:28px 32px;transform:none;
-    clip-path:polygon(0 1.6%, 99% 0, 99.6% 98.8%, .5% 100%);
-    box-shadow:none;border:1px solid var(--line);
+    width:100%;color:#EAF0F7;
+    background-color:var(--scrap);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='fb'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23fb)'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+    padding:34px 36px;transform:none;border:none;
   }
+  .bluescrap .lede{color:#EAF0F7}
+  .bluescrap .lede b{color:#FFFFFF}
   .lede{font-size:13.5px;line-height:1.8;max-width:78ch}
   .printrow{
     display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px;
-    margin-top:22px;padding-top:20px;border-top:1px dashed rgba(42,36,28,.35);
+    margin-top:22px;padding-top:20px;border-top:1px dashed rgba(234,240,247,.4);
   }
   .printcard svg{
     width:96px;height:auto;display:block;margin-bottom:10px;
-    stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linejoin:round;stroke-linecap:round;opacity:.85;
+    stroke:var(--pop);fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;opacity:1;
   }
   .printcard p{font-size:12px;line-height:1.65}
   .bluescrap p + p{margin-top:14px}
@@ -96,7 +87,7 @@
   .section-label .num{color:var(--focus);font-weight:600}
   .section-label .r{margin-left:auto;text-align:right}
   .section-label .title{
-    font-family:var(--sans);font-weight:600;font-size:19px;letter-spacing:-.01em;
+    font-family:var(--sans);font-weight:700;font-size:22px;letter-spacing:-.02em;
     text-transform:lowercase;text-align:left;color:var(--ink);
   }
 
@@ -263,13 +254,13 @@
     list-style:none;padding:0;display:grid;
     grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:30px 26px;
   }
-  .fold-steps li{margin:0}
+  .fold-steps li{margin:0;display:flex;flex-direction:column;align-items:center;text-align:center}
   .stepno{display:block;font-size:10px;letter-spacing:.14em;color:var(--focus);font-weight:600;margin-bottom:8px}
   .steps svg{
-    width:110px;height:auto;display:block;margin-bottom:10px;
+    width:110px;height:auto;display:block;margin:0 auto 10px;
     stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;opacity:.85;
   }
-  .steps p{font-size:12px;line-height:1.65}
+  .steps p{font-size:12px;line-height:1.65;max-width:24ch}
   .stepnote{margin-top:24px;font-size:12px;max-width:62ch}
   .fold-steps em{font-style:normal;background:rgba(36,56,200,.16);padding:0 .2em}
 
@@ -344,6 +335,25 @@
     color:var(--paper);border-color:var(--hl-d);
   }
   #risoBtn:hover{background:var(--hl-d);color:var(--paper)}
+
+  /* ===== invoice-style stacked blocks ===== */
+  .block{
+    background:var(--paper2);
+    border:1px solid var(--line);
+    padding:0;margin:0 0 22px;          /* gap between blocks */
+  }
+  .block > .section-label{
+    margin:0;border-top:none;
+    background:var(--blockhead);color:#EAF0F7;
+    display:flex;align-items:baseline;gap:16px;
+    padding:11px 18px;
+  }
+  .block > .section-label .meta{color:#C3D2EE}
+  .block > .section-label .num{color:#FFFFFF;font-weight:600}
+  .block > .section-label .title{color:#FFFFFF;text-transform:lowercase}
+  .block > .section-label .r{color:#C3D2EE}
+  .block-body{padding:20px 18px}
+  /* the intro scrap becomes the top block, full-bleed blue */
 </style>
 </head>
 <body>
@@ -394,11 +404,11 @@
       </div>
     </div></div>
   </div>
-  <p class="apps">practical applications: field notes &middot; trip logs &middot; recipe minis &middot; protest flyers &middot; love notes &middot; </p>
 </header>
 
 <main class="wrap">
-  <div class="section-label"><span class="meta num">1.0</span><span class="title">Select a format</span><span class="meta r">two ways to bind</span></div>
+  <div class="block"><div class="section-label"><span class="meta num">1.0</span><span class="title">Select a format</span><span class="meta r">two ways to bind</span></div>
+  <div class="block-body">
   <div class="formatbar">
     <label class="fmt">
       <input type="radio" name="format" value="mini" checked>
@@ -429,10 +439,14 @@
     </span>
   </div>
 
-  <div class="section-label"><span class="meta num">2.0</span><span class="title">design your panels</span><span class="meta r">text · image · ink</span></div>
+  </div></div>
+  <div class="block"><div class="section-label"><span class="meta num">2.0</span><span class="title">design your panels</span><span class="meta r">text · image · ink</span></div>
+  <div class="block-body">
   <div class="panels" id="panels"></div>
 
-  <div class="section-label"><span class="meta num">3.0</span><span class="title">Check the press sheets</span><span class="meta r">300 dpi</span></div>
+  </div></div>
+  <div class="block"><div class="section-label"><span class="meta num">3.0</span><span class="title">Check the press sheets</span><span class="meta r">300 dpi</span></div>
+  <div class="block-body">
   <div class="press">
     <div id="sheets"></div>
     <div class="controls">
@@ -448,7 +462,9 @@
     </div>
   </div>
 
-  <div class="section-label"><span class="meta num">4.0</span><span class="title" id="bindText">Fold &amp; cut</span><span class="meta r">no glue required</span></div>
+  </div></div>
+  <div class="block"><div class="section-label"><span class="meta num">4.0</span><span class="title" id="bindText">Fold &amp; cut</span><span class="meta r">no glue required</span></div>
+  <div class="block-body">
   <div class="fold-steps" id="steps-mini">
     <ol class="steps">
       <li><span class="stepno">step 1</span>
@@ -556,6 +572,7 @@
     </ol>
     <p class="stepnote">Each page prints next to its faraway partner — page 1 sits beside the last page. <em>The fold sorts them out.</em></p>
   </div>
+  </div></div>
 </main>
 
 <footer class="colophon">
